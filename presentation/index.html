@@ -3,349 +3,584 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DERCO Chile — BI Final Project</title>
+<title>DERCO Chile — BI Final Project · UDD 2026</title>
 <style>
+/* ============================================================================
+   DERCO Chile — stakeholder deck, 13 slides.  Brand identity: deep red on white.
+   Every mark colour below is validated: >=3:1 contrast on the white surface and
+   OKLab dE >= 8 between any two series that sit side by side (incl. under
+   protanopia/deuteranopia).  Text colours clear WCAG AA (4.5:1).
+   ============================================================================ */
 :root{
-  --bg:#0b1220; --bg2:#0f1a2e; --ink:#eef3fb; --muted:#9fb2cc;
-  --blue:#3d7dd8; --blue2:#1f4e79; --red:#e5573f; --green:#3ec98a; --grey:#5b6b83;
-  --gold:#f2c14e; --card:#14213b; --line:rgba(255,255,255,.09);
-  --serif:"Iowan Old Style",Georgia,serif;
+  /* surfaces */
+  --surface:#ffffff; --plane:#f7f7f5; --panel:#fbfbfa;
+  /* ink */
+  --ink:#1a1a1a;      /* 17.4:1 */
+  --ink-2:#5a5a5a;    /*  6.9:1 */
+  --muted:#767676;    /*  4.5:1 */
+  /* DERCO brand + series slots */
+  --red:#c00512;      /* brand red · series slot 1 · 6.4:1 on white */
+  --red-deep:#8c0410; /* 9.8:1 — red text at small sizes */
+  --red-fill:#f6a09b; /* light tint — large filled areas only */
+  --red-wash:#fdecec;
+  --blue:#2a78d6;     /* series slot 2 · 4.4:1 */
+  --blue-ink:#1f5296; /* 7.8:1 */
+  --green:#0ca30c;    /* positive mark · 3.4:1 */
+  --green-ink:#006300;/* 7.5:1 */
+  /* chrome */
+  --grid:#e5e4e0; --line:#e8e7e3; --neutral:#c9c8c3;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);
+body{background:var(--plane);color:var(--ink);font-family:var(--sans);
   -webkit-font-smoothing:antialiased;overflow-x:hidden}
+
 .deck{scroll-snap-type:y mandatory;height:100vh;overflow-y:scroll;scroll-behavior:smooth}
 .slide{scroll-snap-align:start;min-height:100vh;width:100%;
   display:flex;flex-direction:column;justify-content:center;
-  padding:6vh 8vw;position:relative;
-  background:radial-gradient(1200px 700px at 80% -10%,rgba(61,125,216,.12),transparent 60%),
-             radial-gradient(900px 600px at -10% 110%,rgba(229,87,63,.10),transparent 55%),
-             linear-gradient(160deg,var(--bg),var(--bg2));
-  border-bottom:1px solid rgba(255,255,255,.03)}
-.kicker{font-size:.8rem;letter-spacing:.28em;text-transform:uppercase;color:var(--blue);
-  font-weight:700;margin-bottom:1.1rem}
-h1{font-family:var(--serif);font-size:clamp(2.4rem,6vw,5rem);line-height:1.04;font-weight:700;letter-spacing:-.02em}
-h2{font-family:var(--serif);font-size:clamp(1.8rem,4.2vw,3.3rem);line-height:1.08;letter-spacing:-.01em;margin-bottom:1.4rem}
-h3{font-size:1.05rem;color:var(--muted);font-weight:600}
-p{font-size:clamp(1rem,1.5vw,1.32rem);line-height:1.55;color:var(--ink);max-width:60ch}
-.lead{color:var(--muted)}
-.big{font-family:var(--serif);font-weight:700;font-size:clamp(3rem,9vw,7rem);line-height:.95;letter-spacing:-.03em}
-.accent{color:var(--blue)} .red{color:var(--red)} .green{color:var(--green)} .gold{color:var(--gold)}
-.sub{color:var(--muted);font-size:1.05rem;margin-top:.5rem}
-.grid{display:grid;gap:1.4rem;margin-top:2rem}
-.g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.5rem 1.6rem}
-.card .n{font-family:var(--serif);font-size:2.6rem;font-weight:700;line-height:1}
-.card .l{color:var(--muted);font-size:.95rem;margin-top:.5rem}
-.pill{display:inline-block;padding:.3rem .85rem;border:1px solid var(--line);border-radius:999px;
-  color:var(--muted);font-size:.82rem;letter-spacing:.06em;margin-right:.5rem}
-ul.clean{list-style:none;margin-top:1.5rem;display:flex;flex-direction:column;gap:1rem}
-ul.clean li{font-size:clamp(1rem,1.5vw,1.28rem);line-height:1.45;padding-left:2.2rem;position:relative;max-width:64ch}
-ul.clean li::before{content:"";position:absolute;left:0;top:.55em;width:.85rem;height:.85rem;border-radius:3px;
-  background:var(--blue)}
-ul.clean li.r::before{background:var(--red)} ul.clean li.g::before{background:var(--green)}
-ul.clean li b{color:#fff}
-.foot{position:absolute;bottom:2.2rem;left:8vw;right:8vw;display:flex;justify-content:space-between;
-  align-items:center;color:var(--grey);font-size:.8rem;letter-spacing:.05em}
-.speaker{color:var(--blue);font-weight:700}
-/* reveal animation */
-.reveal>*{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
-.slide.on .reveal>*{opacity:1;transform:none}
-.slide.on .reveal>*:nth-child(2){transition-delay:.08s}
-.slide.on .reveal>*:nth-child(3){transition-delay:.16s}
-.slide.on .reveal>*:nth-child(4){transition-delay:.24s}
-.slide.on .reveal>*:nth-child(5){transition-delay:.32s}
-.slide.on .reveal>*:nth-child(6){transition-delay:.40s}
-/* bar chart */
-.bars{margin-top:1.6rem;display:flex;flex-direction:column;gap:.7rem;max-width:720px}
-.bar{display:grid;grid-template-columns:120px 1fr 64px;align-items:center;gap:1rem;font-size:.98rem}
-.bar .track{height:26px;background:rgba(255,255,255,.06);border-radius:7px;overflow:hidden}
-.bar .fill{height:100%;width:0;border-radius:7px;transition:width 1.1s cubic-bezier(.2,.8,.2,1);background:var(--blue)}
+  padding:6.5vh 7vw 8.5vh;position:relative;background:var(--surface);
+  border-bottom:1px solid var(--line)}
+/* the DERCO signature: a red rule down the left edge of every slide */
+.slide::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--red)}
+.slide.hero{background:var(--red)}
+.slide.hero::before{background:#fff}
+
+/* ---------- type ---------- */
+.kicker{font-size:.76rem;letter-spacing:.22em;text-transform:uppercase;color:var(--red-deep);
+  font-weight:700;margin-bottom:.9rem}
+.hero .kicker{color:#ffd9d9}
+h1{font-size:clamp(2.2rem,5.4vw,4.4rem);line-height:1.05;font-weight:800;letter-spacing:-.025em}
+h2{font-size:clamp(1.6rem,3.4vw,2.7rem);line-height:1.12;letter-spacing:-.02em;font-weight:800;
+  margin-bottom:1rem;max-width:24ch}
+h2.wide{max-width:36ch}
+h3{font-size:.95rem;color:var(--ink);font-weight:700;letter-spacing:.01em}
+p{font-size:clamp(.95rem,1.2vw,1.12rem);line-height:1.5;color:var(--ink-2);max-width:62ch}
+p b,li b{color:var(--ink);font-weight:700}
+.hero h1,.hero p,.hero b{color:#fff}
+.sub{color:var(--muted);font-size:.98rem;margin-top:.45rem}
+.hero .sub{color:#ffd9d9}
+.quote{font-size:clamp(1.1rem,2vw,1.5rem);line-height:1.32;font-weight:600;color:var(--ink);
+  border-left:4px solid var(--red);padding-left:1.05rem;max-width:46ch;margin:.2rem 0 1.3rem}
+
+/* ---------- layout ---------- */
+.grid{display:grid;gap:.9rem;margin-top:1.2rem}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.two{display:grid;grid-template-columns:1.05fr .95fr;gap:2.4rem;align-items:center;margin-top:1.1rem}
+.two.wide-l{grid-template-columns:1.25fr .75fr}
+.two.top{align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1rem 1.15rem}
+.card.accent{border-top:3px solid var(--red)}
+.card p{font-size:.95rem;margin-top:.3rem;line-height:1.42}
+
+/* stat tiles — proportional figures (never tabular-nums at display size) */
+.n{font-size:clamp(1.8rem,3.2vw,2.5rem);font-weight:800;line-height:1;letter-spacing:-.03em}
+.n.red{color:var(--red)} .n.blue{color:var(--blue-ink)} .n.green{color:var(--green-ink)}
+.l{color:var(--muted);font-size:.84rem;margin-top:.4rem;line-height:1.38}
+.big{font-size:clamp(2.6rem,6.4vw,4.6rem);font-weight:800;line-height:.94;letter-spacing:-.04em}
+.big.red{color:var(--red)} .big.green{color:var(--green-ink)}
+
+ul.clean{list-style:none;margin-top:1rem;display:flex;flex-direction:column;gap:.7rem}
+ul.clean li{font-size:clamp(.94rem,1.18vw,1.08rem);line-height:1.42;padding-left:1.75rem;
+  position:relative;max-width:66ch;color:var(--ink-2)}
+ul.clean li::before{content:"";position:absolute;left:0;top:.48em;width:.68rem;height:.68rem;
+  border-radius:2px;background:var(--neutral)}
+ul.clean li.r::before{background:var(--red)}
+ul.clean li.b::before{background:var(--blue)}
+ul.clean li.g::before{background:var(--green)}
+
+/* ---------- charts ---------- */
+.figure{margin-top:1.1rem}
+.figure figcaption{color:var(--muted);font-size:.8rem;margin-top:.6rem;line-height:1.42;max-width:72ch}
+.legend{display:flex;gap:1.1rem;align-items:center;margin-bottom:.8rem;flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:.4rem;color:var(--ink-2);font-size:.84rem}
+.legend i{width:.7rem;height:.7rem;border-radius:2px;display:inline-block}
+
+.bars{display:flex;flex-direction:column;gap:.38rem;max-width:760px}
+.bar{display:grid;grid-template-columns:104px 1fr 56px;align-items:center;gap:.85rem;font-size:.9rem}
+.bar>span:first-child{color:var(--ink);font-weight:600}
+.bar .track{height:19px;background:var(--plane);border-radius:3px}
+.bar .fill{height:100%;width:0;border-radius:3px;background:var(--blue);
+  transition:width 1s cubic-bezier(.2,.8,.2,1)}
 .slide.on .bar .fill{width:var(--w)}
-.bar .v{color:var(--muted);text-align:right}
-/* area/line trend (svg) */
-.trend{width:100%;max-width:820px;margin-top:1.4rem}
-.trend .area{opacity:0;transition:opacity 1.2s ease .2s}
+.bar .fill.red{background:var(--red)}
+.bar .v{color:var(--ink-2);text-align:right;font-variant-numeric:tabular-nums;font-size:.86rem}
+
+/* ordinal ramp — the 4 ranked customer segments (dark = most valuable) */
+.s1{background:#8c0410} .s2{background:#c00512} .s3{background:#e94b45} .s4{background:#f6a09b}
+.swatch{width:.7rem;height:.7rem;border-radius:2px;display:inline-block;margin-right:.42rem;
+  vertical-align:-1px}
+
+.trend{width:100%;max-width:880px;display:block}
+.trend .area{opacity:0;transition:opacity 1s ease .15s}
 .slide.on .trend .area{opacity:1}
-.trend .ln{stroke-dasharray:1400;stroke-dashoffset:1400;transition:stroke-dashoffset 1.8s ease .2s}
+.trend .ln{stroke-dasharray:1500;stroke-dashoffset:1500;transition:stroke-dashoffset 1.6s ease .15s}
 .slide.on .trend .ln{stroke-dashoffset:0}
-/* progress + nav */
-.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--red));
-  width:0;z-index:50;transition:width .25s}
-.counter{position:fixed;bottom:1.2rem;right:1.4rem;color:var(--grey);font-size:.8rem;z-index:50;
+.trend text{font-family:var(--sans);fill:var(--muted);font-size:13px}
+.trend .tick{font-variant-numeric:tabular-nums}
+.trend .endlabel{font-size:17px;font-weight:800}
+
+/* table view — every chart value is reachable without relying on colour */
+table.tv{border-collapse:collapse;font-size:.84rem;width:100%;max-width:620px}
+table.tv th,table.tv td{text-align:right;padding:.3rem .55rem;border-bottom:1px solid var(--line);
   font-variant-numeric:tabular-nums}
-.hint{position:fixed;bottom:1.2rem;left:1.4rem;color:var(--grey);font-size:.78rem;z-index:50}
-.tag{display:inline-flex;gap:.5rem;align-items:center;color:var(--muted);font-size:.9rem;margin-top:1.2rem}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
-.two{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center}
-.quote{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.4rem);line-height:1.25;font-style:italic}
-@media (max-width:820px){.g4,.g3,.g2,.two{grid-template-columns:1fr}.bar{grid-template-columns:90px 1fr 52px}}
+table.tv th:first-child,table.tv td:first-child{text-align:left;font-variant-numeric:normal}
+table.tv th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;
+  letter-spacing:.06em}
+table.tv caption{text-align:left;color:var(--muted);font-size:.78rem;padding-bottom:.35rem}
+
+/* ---------- pipeline strip (slide 3) ---------- */
+.pipe{display:flex;align-items:stretch;gap:.5rem;margin-top:1.1rem;flex-wrap:wrap}
+.pipe .step{flex:1 1 0;min-width:120px;background:var(--panel);border:1px solid var(--line);
+  border-top:3px solid var(--red);border-radius:10px;padding:.7rem .8rem}
+.pipe .step b{display:block;font-size:.86rem;color:var(--ink);margin-bottom:.15rem}
+.pipe .step span{font-size:.78rem;color:var(--muted);line-height:1.35;display:block}
+
+/* ---------- dashboard slide ---------- */
+.dash{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:1.1rem}
+.dash .tile{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:.9rem 1rem}
+.dash .tile .n{font-size:clamp(1.4rem,2.4vw,2rem)}
+.meter{height:8px;background:var(--plane);border-radius:99px;margin-top:.6rem;overflow:hidden}
+.meter i{display:block;height:100%;width:0;border-radius:99px;background:var(--red);
+  transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.slide.on .meter i{width:var(--w)}
+.meter i.green{background:var(--green)}
+.meter i.blue{background:var(--blue)}
+
+/* ---------- chrome ---------- */
+.foot{position:absolute;bottom:2.1rem;left:7vw;right:7vw;display:flex;justify-content:space-between;
+  align-items:center;color:var(--muted);font-size:.74rem;letter-spacing:.04em;
+  border-top:1px solid var(--line);padding-top:.6rem}
+.hero .foot{color:#ffd9d9;border-top-color:rgba(255,255,255,.28)}
+.speaker{color:var(--red-deep);font-weight:700}
+.hero .speaker{color:#fff}
+.wordmark{display:inline-flex;align-items:center;gap:.55rem;font-weight:800;letter-spacing:-.02em;
+  font-size:1.05rem;color:var(--ink)}
+.wordmark::before{content:"";width:26px;height:11px;background:var(--red);border-radius:2px}
+.hero .wordmark{color:#fff}.hero .wordmark::before{background:#fff}
+.tag{display:inline-flex;gap:.5rem;align-items:center;color:var(--ink-2);font-size:.9rem;margin-top:1.1rem}
+.hero .tag{color:#fff}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+.hero .dot{background:#fff}
+.caveat{margin-top:1rem;background:var(--red-wash);border-left:3px solid var(--red);
+  padding:.62rem .9rem;border-radius:0 6px 6px 0;font-size:.87rem;color:var(--ink-2);max-width:none}
+
+/* ---------- speaker-notes drawer (press N) — screen only, never printed ---------- */
+.notes{position:fixed;right:0;top:0;bottom:0;width:min(430px,92vw);background:var(--surface);
+  border-left:3px solid var(--red);box-shadow:-14px 0 40px rgba(0,0,0,.13);z-index:60;
+  transform:translateX(101%);transition:transform .28s cubic-bezier(.2,.7,.2,1);
+  overflow-y:auto;padding:1.5rem 1.5rem 3rem;font-size:.88rem;line-height:1.5}
+.notes.open{transform:none}
+.notes h4{font-size:1.02rem;font-weight:800;color:var(--ink);margin-bottom:.15rem;letter-spacing:-.01em}
+.notes .meta{color:var(--red-deep);font-weight:700;font-size:.76rem;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:.9rem}
+.notes .point{color:var(--ink);font-weight:600;background:var(--red-wash);padding:.6rem .75rem;
+  border-radius:8px;margin-bottom:.9rem}
+.notes h5{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  font-weight:700;margin:1.1rem 0 .4rem}
+.notes .say p{color:var(--ink-2);max-width:none;font-size:.88rem;margin-bottom:.6rem;
+  padding-left:.7rem;border-left:2px solid var(--line)}
+.notes .nums{display:flex;flex-wrap:wrap;gap:.3rem}
+.notes .nums span{background:var(--plane);border:1px solid var(--line);border-radius:5px;
+  padding:.16rem .45rem;font-size:.76rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.notes .watch{color:var(--ink-2);border-left:3px solid var(--blue);padding-left:.7rem}
+.notes .next{color:var(--muted);font-style:italic;margin-top:.5rem}
+.notes .close{position:absolute;top:.8rem;right:1rem;color:var(--muted);font-size:.74rem;
+  letter-spacing:.06em}
+.progress{position:fixed;top:0;left:0;height:3px;background:var(--red);width:0;z-index:50;
+  transition:width .25s}
+.counter{position:fixed;bottom:1.1rem;right:1.3rem;color:var(--muted);font-size:.76rem;z-index:50;
+  font-variant-numeric:tabular-nums;background:rgba(255,255,255,.86);padding:.15rem .5rem;border-radius:4px}
+.hint{position:fixed;bottom:1.1rem;left:1.3rem;color:var(--muted);font-size:.74rem;z-index:50;
+  background:rgba(255,255,255,.86);padding:.15rem .5rem;border-radius:4px}
+
+/* reveal */
+.reveal>*{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1)}
+.slide.on .reveal>*{opacity:1;transform:none}
+.slide.on .reveal>*:nth-child(2){transition-delay:.06s}
+.slide.on .reveal>*:nth-child(3){transition-delay:.12s}
+.slide.on .reveal>*:nth-child(4){transition-delay:.18s}
+.slide.on .reveal>*:nth-child(5){transition-delay:.24s}
+.slide.on .reveal>*:nth-child(6){transition-delay:.30s}
+
+@media (max-width:900px){
+  .g4,.g3,.g2,.two,.two.wide-l,.dash{grid-template-columns:1fr}
+  .bar{grid-template-columns:84px 1fr 48px}
+  .slide{padding:6vh 7vw 10vh}
+}
+@media (prefers-reduced-motion:reduce){
+  .reveal>*,.bar .fill,.meter i,.trend .ln,.trend .area{transition:none}
+  .reveal>*{opacity:1;transform:none}
+}
+/* PDF export — landscape 16:9, one slide per page, backgrounds on.
+   The print rules re-assert every multi-column grid: browsers lay print pages out
+   against a narrow viewport, which would otherwise trip the 900px breakpoint above
+   and stack the cards into one tall column that overflows the page. */
+@page{size:297mm 167mm;margin:0}
 @media print{
+  body{background:#fff}
   .deck{height:auto;overflow:visible;scroll-snap-type:none}
-  .slide{min-height:100vh;page-break-after:always;break-after:page}
-  .progress,.counter,.hint{display:none}
+  .slide{min-height:auto;height:167mm;page-break-after:always;break-after:page;padding:10mm 13mm 15mm}
+  .slide:last-child{page-break-after:auto}
+  .progress,.counter,.hint,.notes{display:none}
   .reveal>*{opacity:1!important;transform:none!important}
   .bar .fill{width:var(--w)!important}
+  .meter i{width:var(--w)!important}
   .trend .ln{stroke-dashoffset:0!important}.trend .area{opacity:1!important}
+  .foot{bottom:6mm;left:13mm;right:13mm}
+  h1{font-size:34pt}h2{font-size:20pt}p,ul.clean li{font-size:10pt}
+  .big{font-size:40pt}.n{font-size:18pt}
+  /* deterministic layout, independent of the print viewport width */
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .two{grid-template-columns:1.05fr .95fr}
+  .two.wide-l{grid-template-columns:1.25fr .75fr}
+  .two.top{align-items:start}
+  .dash{grid-template-columns:repeat(3,1fr);gap:3mm}
+  .dash .tile{padding:3mm 3.5mm}
+  .dash .tile .n{font-size:15pt}
+  .pipe .step{padding:2.4mm 3mm}
+  .bar{grid-template-columns:26mm 1fr 14mm}
+  .card{padding:3.2mm 3.8mm}
+  .quote{font-size:13.5pt}
+  table.tv th,table.tv td{padding:1.2mm 2.2mm}
 }
 </style>
 </head>
 <body>
 <div class="progress" id="prog"></div>
 <div class="counter" id="cnt">01</div>
-<div class="hint">↑ ↓ / space to navigate · press <b>P</b> then Save-as-PDF to export</div>
+<aside class="notes" id="notes" aria-live="polite" aria-label="Speaker notes"><div class="close">press N to hide</div><div id="notes-body"></div></aside>
+<script type="application/json" id="speaker-notes">[{"n":1,"title":"Title","speaker":"Baptiste","seconds":15,"point":"Set the frame: we are a BI unit reporting to a client, not students presenting a model.","say":["Good morning. We're the BI unit DERCO hired.","Our job: turn 14 years of car sales — 550,000 of them — into ONE decision the Commercial Director can act on."],"numbers":["550,033 transactions","May 2009 → March 2022"],"watch":"Don't read the team names off the slide — they can see them. Don't apologise for anything.","next":"\"Let's start with what they actually asked us.\""},{"n":2,"title":"The client & the question","speaker":"Baptiste","seconds":45,"point":"This is a business question, not a modelling exercise. Name the decision-maker and what success means.","say":["DERCO didn't ask for a model. They asked a business question: after 14 years, where are we leaking value, and what should change to grow margin?","Our decision-maker is the Commercial Director — they own brand mix, the dealer-versus-own-store channel, and the marketing budget.","Success for us isn't a high accuracy score. It's a ranked, peso-valued list of moves they can fund next year."],"numbers":["14 years of sales"],"watch":"Say \"pesos\" or \"CLP\" — never euros or dollars. The client is Chilean.","next":"\"So what were we given to work with?\""},{"n":3,"title":"The dataset & how we worked","speaker":"Baptiste → hands to Luis-Felipe","seconds":90,"point":"Three jobs at once: the scale of the data, the credibility of the method, and the honesty caveat — stated up front, not buried.","say":["The raw material: 550,000 transactions, 464,000 customers, 9 brands, over 1,500 models, 511 comunas, from 2009 to 2022. Every row is one car sale — date, an anonymised customer hash, location, brand, model, channel, list price and margin.","Two channels matter: ces, the dealer network at 65%, and propio, DERCO's own stores at 35%. Remember those two names, they come back.","This strip is how we worked: the full BI pipeline — frame, prepare, model, communicate, ethics — in one reproducible notebook with a fixed seed. Every number you'll see on a slide is exported by that notebook into a metrics file the deck reads, so nothing here is typed by hand.","One honesty note up front: the money fields are synthetic, obfuscated for the exam. So everything we say about pesos is a relative signal — trends and rankings are real, absolute amounts are not."],"numbers":["550,033 raw rows → 550,032 after cleaning","464,226 customers","9 brands · 1,543 models","511 comunas","ces 65% / propio 35%","seed = 42"],"watch":"Don't linger on the pipeline strip — it buys credibility, it isn't content. The synthetic-money caveat MUST be said here; if a panellist raises it first, you look like you were hiding it.","next":"\"Luis-Felipe will take you through what the data actually said.\""},{"n":4,"title":"Prepare & audit","speaker":"Luis-Felipe","seconds":45,"point":"Earn trust with the audit, then reveal that the audit itself found the business problem.","say":["First question for any BI team: can we trust this data? Yes.","Less than 1 percent of values are missing. There are no duplicate rows. The dates are all consistent.","When the comuna was missing, we marked it UNKNOWN. We did not delete the row. Deleting rows would reduce the revenue totals, and that would hide money.","But the audit found something real. 11,966 sales lose money. That is 2.18 percent of all deals. These cars were sold below cost.","That is about 6.8 billion pesos of lost margin. It is around 2.7 percent of all retail margin. This becomes the target of our second model."],"numbers":["0.72% missing comuna","0 duplicates","0 date mismatches","11,966 loss-making sales = 2.18%","≈6.8 bn CLP ≈ 2.7% of retail margin"],"watch":"Say \"sold below cost\", not \"sold at a loss to the customer\". If they ask why we kept the negative margins: they are signal, not noise. If we delete them, we delete the finding. Keep your sentences short and pause at each full stop.","next":"\"Before we follow that leak, look at who sells the cars.\""},{"n":5,"title":"EDA — brand mix","speaker":"Luis-Felipe","seconds":35,"point":"Concentration risk — and plant the colour code that makes the next slide land.","say":["Now look at who sells. Suzuki alone is 39 percent of all volume.","That is a strength today. But it is also a risk. If Suzuki has a bad year, DERCO feels it immediately.","Look at the colours. Blue is the incumbent brands. Red is the Chinese brands. The length of the bar is volume. The colour is the origin.","Remember the red. It matters on the next slide."],"numbers":["Suzuki 38.8%","Mazda 17.8%","Renault 10.9%","JAC Cars 9.1% · Great Wall 8.5% · Changan 8.2%"],"watch":"This is the easiest slide to shorten. If you are behind on time, say only the Suzuki line and move on. Do not read all nine brands.","next":"\"Now watch what the red does over time.\""},{"n":6,"title":"The headline — China won the shelf","speaker":"Luis-Felipe → hands to Agustín","seconds":55,"point":"The single finding that reframes the business. Slow down here.","say":["This is the finding that changes the whole business.","In 2009, Chinese brands were 12 percent of sales. In 2022, they are 52 percent. They now sell most of DERCO's cars.","The line is not straight. The share grew to 31 percent in 2012. Then it fell back to about 20 percent in 2015 and 2016. Then it grew again from 2019.","But the direction is clear. In the last year, Chinese brands crossed the 50 percent line.","This is not a side bet any more. It is the core business. A 2026 strategy that treats it as a small bet is wrong."],"numbers":["12.2% in 2009 → 51.8% in 2022","dip to 19.5% in 2016","crossed 50% in 2022"],"watch":"Say the partial-year point yourself, before they ask. 2009 starts in May. 2022 ends in March. So we compare shares, never totals, at the two ends. Saying it first is worth more than answering it later.","next":"\"Agustín now turns this description into foresight.\""},{"n":7,"title":"EDA — channel, geography, rhythm","speaker":"Agustín","seconds":60,"point":"Three operational facts, then the channel gap that tells Model B where to look.","say":["Three operational facts. The dealer channel does 65% of volume and prices better — 6.2% margin against 5.2% at our own stores. A third of all sales sit in just ten comunas, dense but over-exposed to Santiago. And sales peak in August and bottom out in April, with December a close second peak.","Then the finding that points our second model: DERCO's own stores close 5.4% of their deals below cost, against 0.5% at dealers. An eleven-fold gap.","The leak isn't spread evenly across the business — it's concentrated exactly where DERCO controls the pricing."],"numbers":["ces 6.24% margin vs propio 5.20%","top-10 comunas 33.4%","Aug peak, Apr trough","propio 5.38% loss rate vs ces 0.46% → ~11×"],"watch":"This is correlation, not cause. If pushed on why, say so plainly: plausible drivers are discount authority at store level or own stores absorbing trade-ins, but we have no causal evidence — which is exactly why we recommend REVIEWING those deals, not closing the channel.","next":"\"Luis-Felipe now turns this description into foresight.\""},{"n":8,"title":"Model A — segmentation & what it means","speaker":"Agustín","seconds":95,"point":"Two parts on one slide: how we built the segments (left), and the result that matters (right). Slow down for the right side.","say":["Model A answers one question: who should DERCO keep?","We describe each customer with three numbers. Recency: how long since the last purchase. Frequency: how many purchases. Monetary: how much they spent in total.","Then we group similar customers together with KMeans. We did not choose the number of groups by hand. We tested k from 2 to 7. We used the elbow method and the silhouette score. We chose four groups.","Four groups is useful for marketing. The table shows each group: the share of customers, the share of margin, and the action. Retain, grow, nurture, cap spend.","Now the key result. Champions are only 14 percent of customers. But they produce 26 percent of all margin.","They are also the only group that comes back. They buy 2.3 times on average. Every other group buys one time.","And 86 percent of all customers buy only once in 14 years.","So DERCO is a transactional business, not a relationship business. The cheapest way to grow margin is to make one-time buyers come back."],"numbers":["Champions 14.0% cust / 25.7% margin / 2.31 buys","Big-ticket 22.8% / 30.6%","Mainstream 32.5% / 24.3%","Dormant 30.8% / 19.5%, last bought ~9 yrs ago","85.9% buy exactly once"],"watch":"Be ready for the k question: k=2 has the highest silhouette (0.54) but only splits recent-versus-old, which isn't actionable; k=5 scores 0.400 against k=4's 0.393, a gap that is noise. We broke the tie on actionability and say so on the slide. Luis-Felipe built this model — if the question gets deep, hand it to him out loud.","next":"\"Model A tells us WHO. Model B tells us WHICH DEALS.\""},{"n":9,"title":"Model B — the loss-deal classifier","speaker":"Agustín → hands to Vicente","seconds":65,"point":"An operational model. Lead with the leakage decision — that is what separates a BI team from a leaderboard score.","say":["Model B is operational. It predicts which deals will lose money, before they close.","One choice is critical. We do not give margin to the model. The target comes from margin. So using margin would be leakage — the model would simply read the answer.","We use only information known before the sale: brand, channel, comuna, list price, and date.","We compared three models. A dummy baseline. A logistic regression. And gradient boosting.","Gradient boosting is the best. ROC-AUC is 0.855 on the test set. Cross-validation gives 0.83, with a standard deviation of 0.016. So the score is stable, not lucky.","But the business result matters more. The pricing team reviews only the riskiest 10 percent of deals. With that, they find half of all the money-losing deals. This is 5.1 times better than reviewing at random."],"numbers":["ROC-AUC 0.855 hold-out / 0.828 CV mean, std 0.016","PR-AUC 0.142 vs 0.022 base rate","top-10% review → 50.6% of losses caught","5.1× lift, 11.0% precision in the flagged set"],"watch":"Say the honest note before anyone challenges it: losses are only 2.18% of deals, PR-AUC is 0.14, so this is a triage aid and not an auto-reject — a human reviews every flag. Owning the weakness is worth more than hiding it. Luis-Felipe owns the modelling detail in Q&A.","next":"\"Vicente will bring all the results together.\""},{"n":10,"title":"The dashboard","speaker":"Vicente","seconds":40,"point":"The results block closes here. Show that the analysis produced a working artifact, not only slides.","say":["All our results come together here. Six numbers, one screen. This is what the Commercial Director sees.","Chinese brands are 52 percent of 2022 sales. 86 percent of customers buy only once. Champions make 26 percent of the margin. 2.18 percent of deals lose money. Suzuki is 39 percent of volume. And we recover half of the leak.","The dashboard is a self-contained HTML file. The notebook also saves a static image of it. Both read the same metrics file. So the dashboard always matches the analysis. No number is typed by hand."],"numbers":["51.8% · 85.9% · 25.7% · 2.18% · 38.8% · 50.6%"],"watch":"Do not explain the six numbers again — the panel has heard all of them. This slide is about traceability. Point at the screen, name the number, move on.","next":"\"Those six numbers collapse into five findings, and the five into one decision.\""},{"n":11,"title":"Five findings → one decision","speaker":"Vicente","seconds":85,"point":"The answer to the brief. This is the slide the grade hangs on — never cut it, never rush it.","say":["Five findings, ranked by impact. One: China won the shelf — 12 to 52%. Two: DERCO is transactional, not relational — 14% of customers make 26% of margin. Three: 6.8 billion pesos leak through loss-making deals, concentrated in our own stores. Four: single-brand dependence on Suzuki. Five: geographic over-exposure to ten comunas.","That collapses into one decision with three funded moves for FY2026.","Retain: fund a loyalty program aimed at Champions and at converting one-timers — the highest-return margin in the business, because those customers already come back.","Formalise China: treat Chinese brands as a first-class portfolio in pricing, stock and marketing. They're already the majority; the org chart just hasn't caught up.","Plug the leak: deploy our classifier as a pre-approval check on the riskiest 10% of deals, starting with the own-store channel, because that's where the leak lives."],"numbers":["12% → 52%","86% buy once / 14% drive 26%","~6.8 bn CLP at 2.18%","Suzuki ≈ 39%","top-10 comunas ≈ 33%"],"watch":"Go fast on the five findings — the panel has already seen every one of them — and slow on the three moves. Time spent here beats time spent anywhere else in the deck.","next":"\"And we're equally clear about what this can't say.\""},{"n":12,"title":"Ethics, bias & limits","speaker":"Vicente","seconds":45,"point":"Credibility comes from naming real limits, not token ones. Each item is specific to THIS analysis.","say":["We're deliberate about what this can't say. The money is synthetic — direction trustworthy, absolute level not.","The customer hash is re-identifiable by anyone who can hash a candidate RUT, so we treat it as personal data and we dropped street addresses from every model.","Our data over-represents Santiago, so 'valuable customer' really means 'urban customer' — a retention program mustn't quietly redline rural comunas.","Our silhouette is 0.39, so the segments are a useful marketing convenience, not a natural law.","And with an imbalanced target and no causal claims, the models advise; people decide. We'd re-check all of it yearly."],"numbers":["silhouette 0.39","2.18% class imbalance","top-10 comunas 33.4% of data"],"watch":"Say these as decisions the team made, not as apologies. If you have a spare 10 seconds, add the survivorship point: we only see closed DERCO sales, never the customers who walked away or bought a competitor.","next":"\"To close.\""},{"n":13,"title":"Close","speaker":"Vicente","seconds":20,"point":"Land the decision one last time, then stop talking.","say":["So: one dataset, one decision — retain Champions, formalise China, plug the margin leak.","Thank you. We're happy to take your questions."],"numbers":[],"watch":"Stop. Don't add a summary of the summary. All four of you stay standing and facing the panel for Q&A.","next":"Q&A — route by owner (see the Q&A map in SCRIPT.md)."}]</script>
+<div class="hint">↑ ↓ / space · <b>N</b> speaker notes · <b>P</b> → Save as PDF</div>
 
 <div class="deck" id="deck">
 
-<!-- 1 TITLE -->
-<section class="slide">
+<!-- ══════════ 1 · TITLE ══════════ -->
+<section class="slide hero">
   <div class="reveal">
-    <div class="kicker">Business Intelligence · Final Integrative Project · UDD 2026</div>
-    <h1>From 550,033 car sales<br>to <span class="accent">one business decision.</span></h1>
-    <p class="sub" style="margin-top:1.6rem;font-size:1.2rem">DERCO Chile · retail vehicle sales · May 2009 → March 2022</p>
+    <div class="wordmark">DERCO CHILE</div>
+    <div class="kicker" style="margin-top:1.8rem">Business Intelligence · Final Integrative Project · UDD 2026</div>
+    <h1>From 550,033 car sales<br>to one business decision.</h1>
+    <p class="sub" style="font-size:1.1rem;margin-top:1.4rem">Retail vehicle sales · May 2009 → March 2022</p>
     <div class="tag"><span class="dot"></span> Vicente Rodríguez · Agustín Reyes · Luis-Felipe Cáceres · Baptiste Vial</div>
   </div>
   <div class="foot"><span>IIB415A · Business Intelligence</span><span>Acting as DERCO's BI unit</span></div>
 </section>
 
-<!-- 2 THE ASK -->
+<!-- ══════════ 2 · THE ASK ══════════ -->
 <section class="slide">
   <div class="reveal">
     <div class="kicker">01 · The client &amp; the question</div>
-    <h2>DERCO hired us to find where the retail model leaks value.</h2>
-    <p class="quote accent">"After 14 years of sales, where is DERCO leaking value — and what should change to grow margin?"</p>
+    <h2 class="wide">DERCO hired us to find where the retail model leaks value.</h2>
+    <p class="quote">“After 14 years of sales, where is DERCO leaking value — and what should change to grow margin?”</p>
     <div class="grid g3">
-      <div class="card"><h3>Decision-maker</h3><p style="font-size:1.05rem;margin-top:.4rem">Commercial Director — owns brand mix, channel &amp; marketing budget.</p></div>
-      <div class="card"><h3>The decision</h3><p style="font-size:1.05rem;margin-top:.4rem">Where to move commercial effort for FY2026.</p></div>
-      <div class="card"><h3>Success</h3><p style="font-size:1.05rem;margin-top:.4rem">A ranked, euro-valued list of moves the client can act on.</p></div>
+      <div class="card accent"><h3>Decision-maker</h3><p>DERCO's <b>Commercial Director</b> — owns brand mix, channel strategy and the marketing budget.</p></div>
+      <div class="card accent"><h3>The decision</h3><p>Where to move <b>commercial effort and budget</b> for FY2026.</p></div>
+      <div class="card accent"><h3>Success</h3><p>A ranked, <b>CLP-valued</b> list of moves the client can fund — not an accuracy score.</p></div>
     </div>
   </div>
-  <div class="foot"><span class="speaker">▶ Vicente</span><span>Frame &amp; KPIs</span></div>
+  <div class="foot"><span class="speaker">▶ Baptiste</span><span>Frame &amp; KPIs</span></div>
 </section>
 
-<!-- 3 THE DATA -->
+<!-- ══════════ 3 · THE DATA + THE PIPELINE ══════════ -->
 <section class="slide">
   <div class="reveal">
-    <div class="kicker">02 · The dataset</div>
-    <h2>14 years of real retail transactions.</h2>
+    <div class="kicker">02 · The dataset &amp; how we worked</div>
+    <h2 class="wide">14 years of real transactions, through the full BI pipeline.</h2>
     <div class="grid g4">
-      <div class="card"><div class="n accent">550K</div><div class="l">transactions</div></div>
-      <div class="card"><div class="n accent">464K</div><div class="l">unique customers</div></div>
-      <div class="card"><div class="n accent">9</div><div class="l">brands · 1,543 models</div></div>
-      <div class="card"><div class="n accent">500+</div><div class="l">comunas of Chile</div></div>
+      <div class="card"><div class="n red">550K</div><div class="l">transactions</div></div>
+      <div class="card"><div class="n red">464K</div><div class="l">unique customers</div></div>
+      <div class="card"><div class="n red">9</div><div class="l">brands · 1,543 models</div></div>
+      <div class="card"><div class="n red">511</div><div class="l">comunas of Chile</div></div>
     </div>
-    <ul class="clean">
-      <li>Every row = one car sale: <b>date, customer hash, comuna, brand, model, channel, list price, margin.</b></li>
-      <li>Two channels: <b>ces</b> (dealer network) vs <b>propio</b> (DERCO-owned stores).</li>
-      <li class="r">Money fields are <b>synthetic / obfuscated</b> → we read them as <b>relative signal</b>, never audited CLP.</li>
-    </ul>
+    <div class="pipe">
+      <div class="step"><b>1 · Frame</b><span>Question, decision-maker, 6 KPIs</span></div>
+      <div class="step"><b>2 · Prepare</b><span>Audit, clean, engineer. No leakage</span></div>
+      <div class="step"><b>3 · Model</b><span>Segment customers + predict losses</span></div>
+      <div class="step"><b>4 · Communicate</b><span>Insights, recommendation, dashboard</span></div>
+      <div class="step"><b>5 · Ethics</b><span>Bias, privacy, honest limits</span></div>
+    </div>
+    <div class="caveat">Every row is one car sale — <b>date, customer hash, comuna, brand, model, channel,
+      list price, margin</b>; two channels, <b>ces</b> (dealer, 65%) and <b>propio</b> (owned, 35%).
+      One honesty note: the money fields are <b>synthetic / obfuscated</b>, so every CLP figure is a
+      <b>relative signal</b> — shares, ranks and trends are valid, absolute pesos are not audited financials.</div>
+    <p class="sub" style="margin-top:.8rem;max-width:none">Python · pandas · scikit-learn · matplotlib · seed = 42 · one
+      reproducible notebook — every number on every slide is exported by it into <code>metrics.json</code>.</p>
   </div>
-  <div class="foot"><span class="speaker">▶ Vicente</span><span>Data &amp; scope</span></div>
+  <div class="foot"><span class="speaker">▶ Baptiste → Luis-Felipe</span><span>Data, scope &amp; method</span></div>
 </section>
 
-<!-- 4 METHOD -->
+<!-- ══════════ 4 · PREPARE & AUDIT ══════════ -->
 <section class="slide">
   <div class="reveal">
-    <div class="kicker">03 · How we worked — the full BI pipeline</div>
-    <h2>Frame → Prepare → Model → Communicate → Ethics.</h2>
-    <div class="grid g4">
-      <div class="card"><h3 class="accent">1 · Frame</h3><p style="font-size:1rem;margin-top:.4rem">Question, decision-maker, KPIs.</p></div>
-      <div class="card"><h3 class="accent">2 · Prepare</h3><p style="font-size:1rem;margin-top:.4rem">Clean, audit, engineer. No leakage.</p></div>
-      <div class="card"><h3 class="accent">3 · Model</h3><p style="font-size:1rem;margin-top:.4rem">Segment customers + predict loss deals.</p></div>
-      <div class="card"><h3 class="accent">4 · Communicate</h3><p style="font-size:1rem;margin-top:.4rem">One recommendation + dashboard.</p></div>
-    </div>
-    <p class="sub" style="margin-top:1.6rem">Python · pandas · scikit-learn · matplotlib · seed = 42 · one reproducible notebook, top-to-bottom.</p>
-  </div>
-  <div class="foot"><span class="speaker">▶ Vicente → Agustín</span><span>Method</span></div>
-</section>
-
-<!-- 5 DATA PREP -->
-<section class="slide">
-  <div class="reveal">
-    <div class="kicker">04 · Prepare &amp; audit — "can we trust it?"</div>
+    <div class="kicker">03 · Prepare &amp; audit — “can we trust it?”</div>
     <h2>Clean data first. Then we found a leak.</h2>
     <div class="two">
       <ul class="clean">
         <li><b>&lt;1% missing</b>, zero duplicates, dates 100% consistent → safe to model.</li>
-        <li>Missing comuna → flagged <b>UNKNOWN</b>, not dropped (keeps revenue intact).</li>
-        <li>Dropped redundant <b>year</b> column; log-scaled skewed spend for modeling.</li>
-        <li class="r"><b>11,966 sales (2.18%) lose money</b> — sold below cost. A real finding, not noise.</li>
+        <li>Missing comuna → flagged <b>UNKNOWN</b>, never dropped (dropping quietly shrinks revenue).</li>
+        <li>Dropped the redundant <b>year</b> column; log-scaled skewed spend before clustering.</li>
+        <li class="r"><b>11,966 sales (2.18%) lose money</b> — sold below cost. A real finding, not a parsing error.</li>
       </ul>
-      <div class="card" style="text-align:center">
-        <div class="big red">6.8<span style="font-size:2rem"> bn</span></div>
-        <div class="l" style="margin-top:.6rem">CLP margin leaked through loss-making deals (synthetic)</div>
+      <div class="card" style="text-align:center;padding:1.9rem 1.3rem">
+        <div class="big red">6.8<span style="font-size:1.7rem;font-weight:700"> bn</span></div>
+        <div class="l" style="margin-top:.65rem">CLP of margin leaked through loss-making deals<br>
+          <b style="color:var(--ink)">≈ 2.7% of all retail margin</b> (synthetic money)</div>
       </div>
     </div>
   </div>
-  <div class="foot"><span class="speaker">▶ Agustín</span><span>Data prep &amp; quality</span></div>
+  <div class="foot"><span class="speaker">▶ Luis-Felipe</span><span>Data prep &amp; quality</span></div>
 </section>
 
-<!-- 6 EDA brand mix -->
+<!-- ══════════ 5 · EDA brand mix ══════════ -->
 <section class="slide">
   <div class="reveal">
-    <div class="kicker">05 · EDA — brand mix</div>
+    <div class="kicker">04 · EDA — brand mix</div>
     <h2>One brand carries the business.</h2>
-    <div class="bars" id="brandbars">
-      <div class="bar"><span>Suzuki</span><div class="track"><div class="fill" style="--w:100%"></div></div><span class="v">38.8%</span></div>
-      <div class="bar"><span>Mazda</span><div class="track"><div class="fill" style="--w:46%;background:var(--blue2)"></div></div><span class="v">17.8%</span></div>
-      <div class="bar"><span>Renault</span><div class="track"><div class="fill" style="--w:28%;background:var(--blue2)"></div></div><span class="v">10.9%</span></div>
-      <div class="bar"><span>JAC</span><div class="track"><div class="fill" style="--w:24%;background:var(--red)"></div></div><span class="v">9.1%</span></div>
-      <div class="bar"><span>Great Wall</span><div class="track"><div class="fill" style="--w:22%;background:var(--red)"></div></div><span class="v">8.5%</span></div>
-      <div class="bar"><span>Changan</span><div class="track"><div class="fill" style="--w:21%;background:var(--red)"></div></div><span class="v">8.2%</span></div>
-    </div>
-    <p class="sub" style="margin-top:1.4rem"><span class="accent">Blue = incumbent</span> · <span class="red">red = Chinese</span>. Suzuki ≈ 39% of volume → single-brand dependence risk.</p>
+    <figure class="figure">
+      <div class="legend">
+        <span><i style="background:var(--red)"></i> Chinese brand</span>
+        <span><i style="background:var(--blue)"></i> Incumbent brand</span>
+      </div>
+      <div class="bars">
+        <div class="bar"><span>Suzuki</span><div class="track"><div class="fill" style="--w:100%"></div></div><span class="v">38.8%</span></div>
+        <div class="bar"><span>Mazda</span><div class="track"><div class="fill" style="--w:45.9%"></div></div><span class="v">17.8%</span></div>
+        <div class="bar"><span>Renault</span><div class="track"><div class="fill" style="--w:28.1%"></div></div><span class="v">10.9%</span></div>
+        <div class="bar"><span>JAC Cars</span><div class="track"><div class="fill red" style="--w:23.5%"></div></div><span class="v">9.1%</span></div>
+        <div class="bar"><span>Great Wall</span><div class="track"><div class="fill red" style="--w:21.9%"></div></div><span class="v">8.5%</span></div>
+        <div class="bar"><span>Changan</span><div class="track"><div class="fill red" style="--w:21.1%"></div></div><span class="v">8.2%</span></div>
+        <div class="bar"><span>Samsung</span><div class="track"><div class="fill" style="--w:9.0%"></div></div><span class="v">3.5%</span></div>
+        <div class="bar"><span>Geely</span><div class="track"><div class="fill red" style="--w:4.4%"></div></div><span class="v">1.7%</span></div>
+        <div class="bar"><span>Haval</span><div class="track"><div class="fill red" style="--w:4.1%"></div></div><span class="v">1.6%</span></div>
+      </div>
+      <figcaption>Share of all 550,032 transactions, 2009–2022. Bar length is volume; colour is brand origin —
+        the split that matters strategically. <b>Suzuki alone is ~39%</b> → single-brand dependence risk.</figcaption>
+    </figure>
   </div>
-  <div class="foot"><span class="speaker">▶ Agustín</span><span>EDA · concentration</span></div>
+  <div class="foot"><span class="speaker">▶ Luis-Felipe</span><span>EDA · concentration</span></div>
 </section>
 
-<!-- 7 HERO: China shift -->
+<!-- ══════════ 6 · HERO: China shift ══════════ -->
 <section class="slide">
   <div class="reveal">
-    <div class="kicker red">06 · The headline</div>
+    <div class="kicker">05 · The headline</div>
     <h2>China won the shelf.</h2>
-    <svg class="trend" viewBox="0 0 820 300" preserveAspectRatio="none">
-      <defs><linearGradient id="ga" x1="0" x2="0" y1="0" y2="1">
-        <stop offset="0" stop-color="#e5573f" stop-opacity=".55"/><stop offset="1" stop-color="#e5573f" stop-opacity="0"/>
-      </linearGradient></defs>
-      <!-- x: 2009..2022 mapped 0..820 ; y: 0%..100% mapped 300..0 -->
-      <polygon class="area" fill="url(#ga)" points="0,264 63,256 126,234 189,207 252,214 315,224 378,240 441,242 504,237 567,222 630,202 693,199 756,163 819,145 819,300 0,300"/>
-      <polyline class="ln" fill="none" stroke="#e5573f" stroke-width="3.5"
-        points="0,264 63,256 126,234 189,207 252,214 315,224 378,240 441,242 504,237 567,222 630,202 693,199 756,163 819,145"/>
-      <line x1="0" y1="150" x2="820" y2="150" stroke="rgba(255,255,255,.14)" stroke-dasharray="4 6"/>
-    </svg>
-    <div class="two" style="margin-top:.4rem">
-      <p>Chinese-brand share of DERCO sales, 2009 → 2022. They crossed <b class="gold">50%</b> — the majority of every car sold.</p>
-      <div style="display:flex;gap:2rem">
-        <div><div class="big" style="font-size:3.2rem">12%</div><div class="l">2009</div></div>
-        <div style="align-self:center;color:var(--muted);font-size:2rem">→</div>
-        <div><div class="big red" style="font-size:3.2rem">52%</div><div class="l">2022</div></div>
-      </div>
-    </div>
+    <figure class="figure">
+      <svg class="trend" viewBox="0 0 900 340" role="img"
+           aria-label="Chinese-brand share of DERCO transactions rises from 12.2% in 2009 to 51.8% in 2022, crossing the 50% majority line in the final year.">
+        <defs><linearGradient id="ga" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#c00512" stop-opacity=".26"/>
+          <stop offset="1" stop-color="#c00512" stop-opacity=".03"/>
+        </linearGradient></defs>
+        <!-- gridlines: solid hairlines, one shade off the surface -->
+        <g stroke="#e5e4e0" stroke-width="1">
+          <line x1="60" y1="290" x2="880" y2="290"/>
+          <line x1="60" y1="222.5" x2="880" y2="222.5"/>
+          <line x1="60" y1="87.5" x2="880" y2="87.5"/>
+          <line x1="60" y1="20" x2="880" y2="20"/>
+        </g>
+        <g class="tick" text-anchor="end">
+          <text x="48" y="294">0%</text><text x="48" y="226.5">25%</text>
+          <text x="48" y="159">50%</text><text x="48" y="91.5">75%</text><text x="48" y="24">100%</text>
+        </g>
+        <!-- the majority line is the threshold the story turns on -->
+        <line x1="60" y1="155" x2="880" y2="155" stroke="#767676" stroke-width="1.5"/>
+        <text x="66" y="149" fill="#767676" font-size="12.5" font-weight="600">50% — the majority line</text>
+        <polygon class="area" fill="url(#ga)"
+          points="60.0,290.0 60.0,257.1 123.1,250.8 186.2,230.6 249.2,206.0 312.3,213.1 375.4,221.7 438.5,235.7 501.5,237.3 564.6,233.0 627.7,219.8 690.8,202.0 753.8,199.3 816.9,166.9 880.0,150.1 880.0,290.0"/>
+        <polyline class="ln" fill="none" stroke="#c00512" stroke-width="2.5" stroke-linejoin="round"
+          points="60.0,257.1 123.1,250.8 186.2,230.6 249.2,206.0 312.3,213.1 375.4,221.7 438.5,235.7 501.5,237.3 564.6,233.0 627.7,219.8 690.8,202.0 753.8,199.3 816.9,166.9 880.0,150.1"/>
+        <!-- selective direct labels: the two endpoints, not every point -->
+        <circle cx="60" cy="257.1" r="5" fill="#c00512" stroke="#fff" stroke-width="2"/>
+        <circle cx="880" cy="150.1" r="5" fill="#c00512" stroke="#fff" stroke-width="2"/>
+        <text class="endlabel" x="72" y="250" fill="#8c0410">12.2%</text>
+        <text class="endlabel" x="872" y="141" fill="#8c0410" text-anchor="end">51.8%</text>
+        <g class="tick" text-anchor="middle">
+          <text x="60" y="312">2009</text><text x="249.2" y="312">2012</text>
+          <text x="438.5" y="312">2015</text><text x="627.7" y="312">2018</text>
+          <text x="816.9" y="312">2021</text>
+        </g>
+        <text x="60" y="334" fill="#767676" font-size="12.5">Chinese-brand share of DERCO transactions, by year</text>
+      </svg>
+      <figcaption>Not a straight line — the share dipped to ~20% in 2015–16 before the 2019→2022 surge. But the
+        direction is unambiguous: <b>Chinese brands now sell the majority of every car DERCO moves.</b>
+        2009 (from May) and 2022 (to March) are partial years — shares are valid, totals are not.</figcaption>
+    </figure>
   </div>
-  <div class="foot"><span class="speaker">▶ Agustín</span><span>The structural shift</span></div>
+  <div class="foot"><span class="speaker">▶ Luis-Felipe → Agustín</span><span>The structural shift</span></div>
 </section>
 
-<!-- 8 EDA channel+geo+season -->
+<!-- ══════════ 7 · channel + geo + season ══════════ -->
 <section class="slide">
   <div class="reveal">
-    <div class="kicker">07 · EDA — channel, geography, rhythm</div>
-    <h2>Where, how, and when DERCO sells.</h2>
+    <div class="kicker">06 · EDA — channel, geography, rhythm</div>
+    <h2 class="wide">Where, how, and when DERCO sells.</h2>
     <div class="grid g3">
-      <div class="card"><div class="n accent">65 / 35</div><div class="l">dealer <b>ces</b> vs owned <b>propio</b> — and dealers run the higher margin %</div></div>
-      <div class="card"><div class="n accent">33%</div><div class="l">of all sales sit in just the <b>top-10 comunas</b> — dense but over-exposed to Santiago</div></div>
-      <div class="card"><div class="n accent">Aug ▲</div><div class="l">seasonal peak in <b>August</b>, trough in <b>April</b> — plan stock &amp; campaigns to it</div></div>
+      <div class="card"><div class="n blue">65 / 35</div><div class="l">dealer <b>ces</b> vs owned <b>propio</b> —
+        and dealers also price better: <b>6.2%</b> margin vs <b>5.2%</b></div></div>
+      <div class="card"><div class="n red">33%</div><div class="l">of all sales sit in the
+        <b>top-10 comunas</b> — dense, but over-exposed to Santiago metro</div></div>
+      <div class="card"><div class="n blue">Aug ▲</div><div class="l">seasonal peak in <b>August</b>
+        (December a close second), trough in <b>April</b> — plan stock &amp; campaigns to it</div></div>
+    </div>
+    <div class="card accent" style="margin-top:1rem;background:var(--red-wash);border-color:#f5c9c9">
+      <h3 style="color:var(--red-deep)">The channel finding that points the second model</h3>
+      <p style="max-width:none">DERCO's <b>own stores close 5.4% of deals below cost</b> against
+        <b>0.5% at dealers</b> — an <b>~11× gap</b>. The margin leak is not spread evenly across the business;
+        it is concentrated where DERCO controls the pricing.</p>
     </div>
   </div>
-  <div class="foot"><span class="speaker">▶ Agustín → Luis</span><span>EDA wrap</span></div>
+  <div class="foot"><span class="speaker">▶ Agustín</span><span>EDA wrap</span></div>
 </section>
 
-<!-- 9 MODEL A segmentation -->
+<!-- ══════════ 8 · MODEL A segmentation + insight ══════════ -->
 <section class="slide">
   <div class="reveal">
-    <div class="kicker">08 · Model A — customer segmentation</div>
-    <h2>Who should DERCO retain?</h2>
-    <p>RFM (Recency · Frequency · Monetary) → log-scaled → KMeans. We tested k=2…7 with elbow + silhouette and chose <b class="accent">k=4</b>: a quality metric <i>and</i> a marketing playbook.</p>
-    <div class="grid g4">
-      <div class="card"><h3 class="green">Champions</h3><div class="n" style="font-size:1.9rem">14%</div><div class="l">repeat, high-value — the only group that buys twice</div></div>
-      <div class="card"><h3 class="accent">Big-ticket one-timers</h3><div class="n" style="font-size:1.9rem">23%</div><div class="l">highest spend, bought once</div></div>
-      <div class="card"><h3 style="color:var(--muted)">Mainstream</h3><div class="n" style="font-size:1.9rem">32%</div><div class="l">single mid-value purchase</div></div>
-      <div class="card"><h3 class="red">Dormant</h3><div class="n" style="font-size:1.9rem">31%</div><div class="l">last seen ~9 years ago</div></div>
-    </div>
-  </div>
-  <div class="foot"><span class="speaker">▶ Luis-Felipe</span><span>Segmentation</span></div>
-</section>
-
-<!-- 10 segmentation insight -->
-<section class="slide">
-  <div class="reveal">
-    <div class="kicker">08 · Model A — the insight</div>
-    <h2>DERCO is <span class="red">transactional</span>, not <span class="green">relational</span>.</h2>
-    <div class="two">
+    <div class="kicker">07 · Model A — customer segmentation</div>
+    <h2 class="wide">Who should DERCO retain? The 14% that come back.</h2>
+    <p>RFM (Recency · Frequency · Monetary) → log-scaled → KMeans. We tested k = 2…7 with elbow + silhouette
+      and chose <b>k = 4</b> — the elbow, a healthy silhouette, <i>and</i> four groups that map onto four real
+      marketing plays.</p>
+    <div class="two wide-l" style="margin-top:1rem">
+      <table class="tv">
+        <caption>Each segment's share of customers vs its share of total retail margin
+          — one ordered ramp, because the segments are ranked by value</caption>
+        <thead><tr><th>Segment</th><th>Customers</th><th>Margin</th><th>Avg. buys</th><th>Play</th></tr></thead>
+        <tbody>
+          <tr><td><span class="swatch s1"></span>Champions</td><td>14.0%</td><td>25.7%</td><td>2.31</td><td>Retain</td></tr>
+          <tr><td><span class="swatch s2"></span>Big-ticket one-timers</td><td>22.8%</td><td>30.6%</td><td>1.00</td><td>Grow</td></tr>
+          <tr><td><span class="swatch s3"></span>Mainstream one-timers</td><td>32.5%</td><td>24.3%</td><td>1.00</td><td>Nurture</td></tr>
+          <tr><td><span class="swatch s4"></span>Dormant / lapsed</td><td>30.8%</td><td>19.5%</td><td>1.00</td><td>Cap spend</td></tr>
+        </tbody>
+      </table>
       <div>
-        <div class="big"><span class="green">14%</span> → <span class="green">26%</span></div>
-        <p style="margin-top:1rem">Champions are just <b>14% of customers</b> but drive <b class="green">26% of all margin</b> — the cheapest margin in the business to grow.</p>
-      </div>
-      <div class="card" style="text-align:center">
-        <div class="big red" style="font-size:4.5rem">86%</div>
-        <div class="l" style="margin-top:.6rem">of customers buy <b>exactly once</b> in 14 years. Converting one-timers → repeat is the #1 growth lever.</div>
+        <div class="big green" style="font-size:clamp(2rem,4.2vw,3.1rem)">14% → 26%</div>
+        <p style="margin-top:.5rem;font-size:.95rem">Champions are the <b>only</b> group that buys twice, and
+          they carry the densest margin per customer in the business.</p>
+        <div class="card" style="text-align:center;margin-top:.9rem;padding:1.1rem">
+          <div class="big red" style="font-size:clamp(2.2rem,4.6vw,3.4rem)">86%</div>
+          <div class="l" style="margin-top:.45rem">buy <b style="color:var(--ink)">exactly once</b> in 14 years
+            → DERCO is <b style="color:var(--ink)">transactional, not relational</b></div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="foot"><span class="speaker">▶ Luis-Felipe</span><span>Segmentation insight</span></div>
+  <div class="foot"><span class="speaker">▶ Agustín</span><span>Segmentation</span></div>
 </section>
 
-<!-- 11 MODEL B classifier -->
+<!-- ══════════ 9 · MODEL B classifier ══════════ -->
 <section class="slide">
   <div class="reveal">
-    <div class="kicker">09 · Model B — predicting loss-making deals</div>
-    <h2>Flag the money-losers before they close.</h2>
-    <p>Supervised classifier on <b>pre-sale</b> features only (brand, channel, comuna, price, timing) — <b class="accent">margin excluded to avoid leakage</b>. Baselines → HistGradientBoosting, stratified split + 5-fold CV.</p>
+    <div class="kicker">08 · Model B — predicting loss-making deals</div>
+    <h2 class="wide">Flag the money-losers before they close.</h2>
+    <p>Supervised classifier on <b>pre-sale features only</b> — brand, channel, comuna, price, timing.
+      <b>Margin is excluded to avoid leakage</b> (the target is derived from it). Dummy + logistic baselines →
+      HistGradientBoosting, stratified hold-out + 5-fold CV.</p>
     <div class="grid g3">
-      <div class="card"><div class="n accent">0.83</div><div class="l">ROC-AUC — 5-fold CV mean (0.855 on hold-out; stable, std 0.02)</div></div>
-      <div class="card"><div class="n accent">5.1×</div><div class="l">better than random at spotting a loss</div></div>
-      <div class="card"><div class="n green">50%</div><div class="l">of all loss deals caught by reviewing just the <b>top-10% riskiest</b></div></div>
+      <div class="card"><div class="n blue">0.83</div><div class="l">ROC-AUC, 5-fold CV mean
+        (0.855 on the hold-out; std 0.016)</div></div>
+      <div class="card"><div class="n blue">5.1×</div><div class="l">better than reviewing deals at random</div></div>
+      <div class="card"><div class="n green">50%</div><div class="l">of all loss-making deals caught by reviewing
+        just the <b>top-10% riskiest</b></div></div>
     </div>
-    <p class="sub" style="margin-top:1.4rem">Honest note: losses are 2.18% of deals (imbalanced) → the model is a <b>triage aid</b>, a human reviews every flag.</p>
+    <div class="caveat"><b>Honest note:</b> losses are only 2.18% of deals, so PR-AUC is 0.14 — modest in
+      absolute terms, ~6.5× the base rate. This is a <b>triage aid, not an auto-reject</b>: a human reviews
+      every flag.</div>
   </div>
-  <div class="foot"><span class="speaker">▶ Luis-Felipe → Baptiste</span><span>Classification</span></div>
+  <div class="foot"><span class="speaker">▶ Agustín → Vicente</span><span>Classification</span></div>
 </section>
 
-<!-- 12 insights ranked -->
+<!-- ══════════ 10 · DASHBOARD ══════════ -->
 <section class="slide">
   <div class="reveal">
-    <div class="kicker">10 · What it all means</div>
-    <h2>Five insights, ranked by decision impact.</h2>
+    <div class="kicker">09 · The dashboard the Commercial Director sees</div>
+    <h2 class="wide">Six numbers, one screen.</h2>
+    <div class="dash">
+      <div class="tile"><div class="n red">51.8%</div><div class="l">of 2022 sales are Chinese brands</div>
+        <div class="meter"><i style="--w:51.8%"></i></div></div>
+      <div class="tile"><div class="n red">85.9%</div><div class="l">of customers buy exactly once</div>
+        <div class="meter"><i style="--w:85.9%"></i></div></div>
+      <div class="tile"><div class="n green">25.7%</div><div class="l">of margin from the 14% Champions</div>
+        <div class="meter"><i class="green" style="--w:25.7%"></i></div></div>
+      <div class="tile"><div class="n red">2.18%</div><div class="l">of deals close below cost</div>
+        <div class="meter"><i style="--w:2.18%"></i></div></div>
+      <div class="tile"><div class="n blue">38.8%</div><div class="l">Suzuki's share of volume — concentration risk</div>
+        <div class="meter"><i class="blue" style="--w:38.8%"></i></div></div>
+      <div class="tile"><div class="n green">50.6%</div><div class="l">of the leak recovered for review by
+        checking the riskiest 10% of deals</div>
+        <div class="meter"><i class="green" style="--w:50.6%"></i></div></div>
+    </div>
+    <figcaption style="color:var(--muted);font-size:.8rem;margin-top:.9rem">
+      Live in <code>presentation/index.html</code>; the static twin is <code>presentation/dashboard.png</code>,
+      written by the notebook. Both read the same <code>metrics.json</code> — no number is typed by hand.
+    </figcaption>
+  </div>
+  <div class="foot"><span class="speaker">▶ Vicente</span><span>Dashboard</span></div>
+</section>
+
+<!-- ══════════ 11 · insights → recommendation ══════════ -->
+<section class="slide">
+  <div class="reveal">
+    <div class="kicker">10 · What it means &amp; what to do</div>
+    <h2 class="wide">Five findings → one decision, three funded moves.</h2>
+    <div class="two wide-l top">
+      <ul class="clean" style="margin-top:0">
+        <li class="r"><b>China won the shelf</b> — 12% → 52% of sales. The core business, not a hedge.</li>
+        <li class="g"><b>Transactional, not relational</b> — 86% buy once; the 14% Champions drive 26% of margin.</li>
+        <li class="r"><b>~6.8 bn CLP leaks</b> through 2.18% loss-making deals, concentrated in the own-store channel.</li>
+        <li class="b"><b>Single-brand dependence</b> — Suzuki ≈ 39% of volume.</li>
+        <li class="b"><b>Geographic over-exposure</b> — top-10 comunas ≈ 33% of sales.</li>
+      </ul>
+      <div style="display:flex;flex-direction:column;gap:.7rem">
+        <div class="card accent"><h3 style="color:var(--green-ink)">1 · Retain</h3>
+          <p>Fund a <b>Champions-retention + one-timer-conversion</b> loyalty CRM.</p></div>
+        <div class="card accent"><h3 style="color:var(--red-deep)">2 · Formalise China</h3>
+          <p>Treat Chinese brands as a <b>first-class portfolio</b> — pricing, stock, marketing.</p></div>
+        <div class="card accent"><h3 style="color:var(--blue-ink)">3 · Plug the leak</h3>
+          <p>Classifier as a <b>pre-approval check</b> on the riskiest 10%, starting with own stores.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="speaker">▶ Vicente</span><span>Insights &amp; recommendation</span></div>
+</section>
+
+<!-- ══════════ 12 · ethics ══════════ -->
+<section class="slide">
+  <div class="reveal">
+    <div class="kicker">11 · Ethics, bias &amp; limits</div>
+    <h2>What this analysis cannot say.</h2>
     <ul class="clean">
-      <li class="r"><b>China won the shelf</b> — 12% → 52% of sales. No longer a hedge; it's the core business.</li>
-      <li class="g"><b>Transactional, not relational</b> — 86% buy once; 14% Champions drive 26% of margin.</li>
-      <li><b>~6.8 bn CLP leaks</b> through 2.18% loss-making deals — model catches ~50% for review.</li>
-      <li><b>Single-brand dependence</b> — Suzuki ≈ 39% of volume.</li>
-      <li><b>Geographic over-exposure</b> — top-10 comunas ≈ 33% of sales.</li>
+      <li class="r"><b>Synthetic money</b> — every CLP figure is a relative signal, not an audited financial.
+        The direction is trustworthy; the level is not.</li>
+      <li class="r"><b>Privacy</b> — the customer hash is re-identifiable, so we treat it as personal data;
+        street addresses were excluded from every model.</li>
+      <li class="b"><b>Geographic bias</b> — Santiago metro is over-represented, so “valuable customer” really
+        means “<i>urban</i> customer”. A retention program must not redline rural comunas.</li>
+      <li class="b"><b>Moderate cluster quality</b> — silhouette 0.39. The segments are a marketing
+        convenience, not a law of nature.</li>
+      <li class="g"><b>Human in the loop</b> — imbalanced target, no causal claims. The models advise;
+        people decide. Re-check yearly.</li>
     </ul>
   </div>
-  <div class="foot"><span class="speaker">▶ Baptiste</span><span>Insights</span></div>
+  <div class="foot"><span class="speaker">▶ Vicente</span><span>Ethics &amp; limitations</span></div>
 </section>
 
-<!-- 13 recommendation -->
-<section class="slide">
+<!-- ══════════ 13 · close ══════════ -->
+<section class="slide hero">
   <div class="reveal">
-    <div class="kicker gold">11 · The recommendation — one decision</div>
-    <h2>Rebalance the commercial model on three moves.</h2>
-    <div class="grid g3">
-      <div class="card"><h3 class="green">1 · Retain</h3><p style="font-size:1.05rem;margin-top:.5rem">Fund a <b>Champions-retention + one-timer-conversion</b> loyalty CRM. Highest-return margin.</p></div>
-      <div class="card"><h3 class="accent">2 · Formalise China</h3><p style="font-size:1.05rem;margin-top:.5rem">Treat Chinese brands as a <b>first-class portfolio</b> — pricing, stock, marketing. It's already the majority.</p></div>
-      <div class="card"><h3 class="red">3 · Plug the leak</h3><p style="font-size:1.05rem;margin-top:.5rem">Deploy the classifier as a <b>pre-approval check</b> on the riskiest 10% of deals.</p></div>
-    </div>
+    <div class="wordmark">DERCO CHILE</div>
+    <div class="kicker" style="margin-top:1.8rem">Thank you</div>
+    <h1>One dataset.<br>One decision.</h1>
+    <p class="sub" style="font-size:1.1rem;margin-top:1.4rem">Retain Champions · formalise China · plug the
+      margin leak.</p>
+    <div class="tag"><span class="dot"></span> Vicente Rodríguez · Agustín Reyes · Luis-Felipe Cáceres ·
+      Baptiste Vial · UDD 2026</div>
   </div>
-  <div class="foot"><span class="speaker">▶ Baptiste</span><span>Recommendation</span></div>
-</section>
-
-<!-- 14 ethics -->
-<section class="slide">
-  <div class="reveal">
-    <div class="kicker">12 · Ethics, bias &amp; limits</div>
-    <h2>What this analysis <span class="red">cannot</span> say.</h2>
-    <ul class="clean">
-      <li class="r"><b>Synthetic money</b> — all CLP figures are relative signals, not audited financials. Direction trustworthy, level not.</li>
-      <li><b>Privacy</b> — customer hash is re-identifiable → treated as personal data; address excluded from all models.</li>
-      <li><b>Geographic bias</b> — Santiago-metro over-represented; "valuable customer" really means "urban customer".</li>
-      <li class="g"><b>Human in the loop</b> — imbalanced target + no causality → models advise, people decide. Re-check yearly.</li>
-    </ul>
-  </div>
-  <div class="foot"><span class="speaker">▶ Baptiste</span><span>Ethics &amp; limitations</span></div>
-</section>
-
-<!-- 15 close -->
-<section class="slide">
-  <div class="reveal">
-    <div class="kicker">Thank you</div>
-    <h1>One dataset. One decision.<br><span class="accent">Ready for your questions.</span></h1>
-    <p class="sub" style="margin-top:1.6rem">Retain Champions · formalise China · plug the margin leak.</p>
-    <div class="tag"><span class="dot"></span> Vicente Rodríguez · Agustín Reyes · Luis-Felipe Cáceres · Baptiste Vial · UDD 2026</div>
-  </div>
-  <div class="foot"><span>IIB415A · Business Intelligence</span><span>DERCO Chile · BI unit</span></div>
+  <div class="foot"><span>IIB415A · Business Intelligence</span><span>Ready for your questions</span></div>
 </section>
 
 </div>
@@ -353,22 +588,44 @@ ul.clean li b{color:#fff}
 <script>
 const deck=document.getElementById('deck'), slides=[...document.querySelectorAll('.slide')];
 const prog=document.getElementById('prog'), cnt=document.getElementById('cnt');
-const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.5});
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.4});
 slides.forEach(s=>io.observe(s));
 function update(){
   const i=Math.round(deck.scrollTop/window.innerHeight);
   cnt.textContent=String(Math.min(i+1,slides.length)).padStart(2,'0')+' / '+slides.length;
-  prog.style.width=(deck.scrollTop/(deck.scrollHeight-deck.clientHeight)*100)+'%';
+  const max=deck.scrollHeight-deck.clientHeight;
+  prog.style.width=(max>0?deck.scrollTop/max*100:0)+'%';
 }
 deck.addEventListener('scroll',update); update();
-function go(d){const i=Math.round(deck.scrollTop/window.innerHeight);
+function go(d){
+  const i=Math.round(deck.scrollTop/window.innerHeight);
   const t=Math.max(0,Math.min(slides.length-1,i+d));
-  deck.scrollTo({top:t*window.innerHeight,behavior:'smooth'});}
+  deck.scrollTo({top:t*window.innerHeight,behavior:'smooth'});
+}
+const NOTES=JSON.parse(document.getElementById('speaker-notes').textContent||'[]');
+const drawer=document.getElementById('notes'), nbody=document.getElementById('notes-body');
+const esc=t=>String(t).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function renderNotes(){
+  const i=Math.round(deck.scrollTop/window.innerHeight), n=NOTES[i];
+  if(!n){nbody.innerHTML='<p>No notes for this slide.</p>';return;}
+  nbody.innerHTML=
+    '<div class="meta">Slide '+n.n+' · '+esc(n.speaker)+' · '+n.seconds+'s</div>'+
+    '<h4>'+esc(n.title)+'</h4>'+
+    '<div class="point">'+esc(n.point)+'</div>'+
+    '<h5>Say</h5><div class="say">'+n.say.map(t=>'<p>'+esc(t)+'</p>').join('')+'</div>'+
+    (n.numbers.length?'<h5>Numbers to land</h5><div class="nums">'+
+      n.numbers.map(t=>'<span>'+esc(t)+'</span>').join('')+'</div>':'')+
+    '<h5>Watch out</h5><p class="watch">'+esc(n.watch)+'</p>'+
+    '<h5>Transition</h5><p class="next">'+esc(n.next)+'</p>';
+}
+deck.addEventListener('scroll',()=>{if(drawer.classList.contains('open'))renderNotes();});
 addEventListener('keydown',e=>{
-  if(['ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();go(1);}
-  if(['ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(-1);}
-  if(e.key==='Home'){deck.scrollTo({top:0,behavior:'smooth'});}
-  if(e.key==='End'){deck.scrollTo({top:slides.length*window.innerHeight,behavior:'smooth'});}
+  if(['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(1);}
+  if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(-1);}
+  if(e.key==='Home'){e.preventDefault();deck.scrollTo({top:0,behavior:'smooth'});}
+  if(e.key==='End'){e.preventDefault();deck.scrollTo({top:slides.length*window.innerHeight,behavior:'smooth'});}
+  if(e.key==='n'||e.key==='N'){drawer.classList.toggle('open');renderNotes();}
+  if(e.key==='p'||e.key==='P'){drawer.classList.remove('open');slides.forEach(s=>s.classList.add('on'));setTimeout(()=>window.print(),120);}
 });
 </script>
 </body>
