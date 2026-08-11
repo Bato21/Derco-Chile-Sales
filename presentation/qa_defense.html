@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DERCO Chile BI Project — Question &amp; Answer Defence Pack</title>
+<style>
+:root{
+  --red:#c00512; --red-deep:#8c0410; --red-wash:#fdf2f3;
+  --ink:#1a1a1a; --ink-2:#3d3d3d; --muted:#6b6b6b;
+  --line:#e2e1dd; --grid:#efeee9; --blue:#1f5296; --green:#006300;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; color:var(--ink); background:#fff;
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  font-size:10.2pt; line-height:1.5;
+}
+.page{max-width:186mm;margin:0 auto;padding:10mm 0 14mm}
+
+/* ---------- masthead ---------- */
+.mast{background:var(--red);color:#fff;padding:11mm 10mm 9mm;margin-bottom:7mm}
+.mast .kicker{font-size:8pt;letter-spacing:.22em;text-transform:uppercase;font-weight:700;opacity:.85}
+.mast h1{font-size:23pt;line-height:1.1;margin:.35rem 0 .5rem;letter-spacing:-.02em}
+.mast p{margin:0;font-size:9.6pt;max-width:150mm;opacity:.95}
+.mast .who{margin-top:.7rem;font-size:8.6pt;opacity:.85}
+.logo{display:inline-flex;align-items:center;gap:.45rem;font-weight:800;letter-spacing:.06em;font-size:9pt}
+.logo i{width:16px;height:6px;background:#fff;border-radius:1px;display:inline-block}
+
+/* ---------- structure ---------- */
+h2{font-size:13pt;margin:9mm 0 2mm;padding-bottom:1.6mm;border-bottom:2px solid var(--red);
+   letter-spacing:-.01em}
+h2 .num{color:var(--red);font-weight:800;margin-right:.5rem}
+h3{font-size:10.4pt;margin:5mm 0 1.5mm;color:var(--red-deep);letter-spacing:.01em}
+p{margin:0 0 2mm}
+ul,ol{margin:0 0 2mm;padding-left:5mm}
+li{margin-bottom:.9mm}
+code{font-family:Consolas,"SF Mono",Menlo,monospace;font-size:8.9pt;background:var(--grid);
+     padding:.4mm 1mm;border-radius:2px}
+b,strong{font-weight:700}
+.lead{color:var(--ink-2);font-size:9.8pt;margin-bottom:3mm}
+
+/* ---------- Q&A block ---------- */
+.qa{margin:0 0 3.4mm;padding-left:4.5mm;border-left:2px solid var(--line);page-break-inside:avoid}
+.qa .q{font-weight:700;color:var(--ink);margin-bottom:1.2mm}
+.qa .q::before{content:"Q";color:var(--red);font-weight:800;margin-right:2mm;font-size:9pt}
+.qa .a{margin-bottom:1.2mm}
+.qa .a::before{content:"A";color:var(--muted);font-weight:800;margin-right:2mm;font-size:9pt}
+.qa .say{background:var(--red-wash);border-left:2px solid var(--red);padding:1.6mm 2.6mm;
+   margin:1.4mm 0 0;font-size:9.4pt;color:var(--ink-2)}
+.qa .say b{color:var(--red-deep)}
+.trap{border-left-color:var(--red)}
+
+/* ---------- tables ---------- */
+table{width:100%;border-collapse:collapse;margin:2mm 0 3mm;font-size:9pt;page-break-inside:avoid}
+caption{text-align:left;color:var(--muted);font-size:8.4pt;padding-bottom:1.2mm}
+th{text-align:left;font-size:7.8pt;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+   font-weight:700;border-bottom:1px solid var(--line);padding:1.4mm 2mm 1.4mm 0}
+td{padding:1.3mm 2mm 1.3mm 0;border-bottom:1px solid var(--grid);vertical-align:top}
+/* right-aligned figures need left padding, or they run into the column before them */
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;padding-left:5mm;padding-right:0}
+td.n + td,th.n + th{padding-left:5mm}
+tr.hi td{background:var(--red-wash)}
+
+/* ---------- callouts ---------- */
+/* no page-break-inside:avoid on these two: Chrome pushes the whole block to the next
+   page even when it would fit, leaving the first page two-thirds empty */
+.note{background:var(--grid);border-left:3px solid var(--muted);padding:2.4mm 3mm;margin:2.5mm 0;
+      font-size:9.3pt}
+.warn{background:var(--red-wash);border-left:3px solid var(--red);padding:2.4mm 3mm;margin:2.5mm 0;
+      font-size:9.3pt}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 6mm}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5mm;margin:3mm 0 4mm}
+.tile{border:1px solid var(--line);border-radius:3px;padding:2.4mm 3mm;page-break-inside:avoid}
+.tile .v{font-size:15pt;font-weight:800;letter-spacing:-.02em;color:var(--red)}
+.tile .v.b{color:var(--blue)} .tile .v.g{color:var(--green)}
+.tile .l{font-size:8.1pt;color:var(--muted);line-height:1.35;margin-top:.6mm}
+.foot{margin-top:8mm;padding-top:2.5mm;border-top:1px solid var(--line);color:var(--muted);font-size:8.2pt}
+
+@page{size:A4;margin:12mm 12mm 14mm}
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  .page{max-width:none;padding:0}
+  .mast{margin:0 0 6mm;padding:8mm 9mm 7mm}
+  h2{page-break-after:avoid}
+  h3{page-break-after:avoid}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="mast">
+  <div class="logo"><i></i> DERCO CHILE</div>
+  <div class="kicker" style="margin-top:.6rem">Business Intelligence · Final Integrative Project · IIB415A · UDD 2026</div>
+  <h1>Question &amp; Answer Defence Pack</h1>
+  <p>Everything behind the notebook and the deck: the numbers, the choices we made, why we made them, and the
+     honest answer to every question a panel can ask. Each entry gives the short answer to say out loud, then the
+     detail to fall back on if they push.</p>
+  <div class="who">Vicente Rodríguez · Agustín Reyes · Luis-Felipe Cáceres · Baptiste Vial</div>
+</header>
+
+<p class="lead"><b>How to use this document.</b> Sections 1 to 9 follow the order of the notebook, so a question about
+any slide lands in the matching section. Section 10 collects the hostile questions, the ones designed to find a crack.
+Section 11 says who answers what. The appendices hold every number we quote and a plain-language glossary, so nobody
+has to reconstruct a figure under pressure.</p>
+
+<div class="warn"><b>Three rules for the room.</b> First, say the caveat before they find it: the money is synthetic,
+the losses are 2.18% of deals, nothing here is causal. Second, never invent a number; if you do not have it, say
+"that is in the notebook, I would rather check it than guess". Third, when a question goes deeper than your slide,
+hand it out loud to the member who built that part.</p>
+
+<h2><span class="num">0</span>The project in sixty seconds</h2>
+
+<p>DERCO Chile gave us 550,033 retail vehicle sales from May 2009 to March 2022 and one business question: after 14
+years, where is the retail model leaking value, and what should change to grow margin. We ran the full BI pipeline in
+one reproducible notebook: frame the decision, prepare and audit the data, build two models, communicate a
+recommendation, and state the ethical limits. The answer is one decision with three funded moves: retain the customers
+who come back, formalise the Chinese-brand portfolio, and plug the margin leak with a pre-approval check on the
+riskiest deals.</p>
+
+<div class="tiles">
+  <div class="tile"><div class="v">51.8%</div><div class="l">of 2022 sales are Chinese brands, up from 12.2% in 2009</div></div>
+  <div class="tile"><div class="v">85.9%</div><div class="l">of customers buy exactly once in 14 years</div></div>
+  <div class="tile"><div class="v g">25.7%</div><div class="l">of margin comes from the 14.0% Champions</div></div>
+  <div class="tile"><div class="v">2.18%</div><div class="l">of deals close below cost, about 6.8 bn CLP</div></div>
+  <div class="tile"><div class="v b">38.8%</div><div class="l">of volume is Suzuki alone, a concentration risk</div></div>
+  <div class="tile"><div class="v">11×</div><div class="l">more below-cost deals in own stores than at dealers</div></div>
+  <div class="tile"><div class="v g">50.6%</div><div class="l">of loss-making deals caught by reviewing the riskiest 10%</div></div>
+  <div class="tile"><div class="v b">0.83</div><div class="l">cross-validated ROC-AUC of the classifier</div></div>
+</div>
+
+<h2><span class="num">1</span>Framing, scope and the client</h2>
+
+<div class="qa">
+  <div class="q">What exactly did the client ask for, and who is the decision-maker?</div>
+  <div class="a">The Commercial Director. They own brand mix, the dealer-versus-own-store channel, and the marketing
+    budget, so they are the only person who can act on all three of our moves. The question they asked is where the
+    retail model leaks value and what to change to grow margin.</div>
+  <div class="say"><b>Say:</b> "We were not asked for a model. We were asked where the money leaks and what to change,
+    and every deliverable is built backwards from that."</div>
+</div>
+
+<div class="qa">
+  <div class="q">Why those six KPIs and not others?</div>
+  <div class="a">Transactions and revenue measure scale; retail margin and margin percentage measure what the business
+    keeps; repeat-customer rate measures whether growth compounds; loss-making-deal rate measures leakage. Each of the
+    three moves is tied to one of them, so a KPI that moved nothing would have been dropped.</div>
+</div>
+
+<div class="qa">
+  <div class="q">How do you define success for the project itself?</div>
+  <div class="a">A ranked, peso-valued list of moves the Commercial Director can fund next year, not a high accuracy
+    score. That is why the headline number for Model B is "half the leak caught by reviewing 10% of deals" rather than
+    the AUC.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Why two models instead of one?</div>
+  <div class="a">The question has two halves. "Who should we keep" is a customer-level, unsupervised question, so it
+    gets RFM and KMeans. "Which deals leak margin" is a deal-level, supervised question with a labelled target, so it
+    gets a classifier. One model cannot answer both without pretending the two questions are the same.</div>
+</div>
+
+<h2><span class="num">2</span>The data, the audit and the cleaning decisions</h2>
+
+<div class="qa">
+  <div class="q">What does one row represent, and how big is the file?</div>
+  <div class="a">One row is one car sale. 550,033 raw rows, 550,032 after cleaning, 464,226 unique customers, 9 brands,
+    1,543 model-and-trim strings, 511 comunas, from 5 May 2009 to 28 March 2022. The source is a single Excel sheet
+    whose one column packs all ten fields pipe-delimited, so the first step is to split it and assign real types.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Can this data be trusted?</div>
+  <div class="a">Yes, and we checked rather than assumed. Zero exact duplicate rows. Zero rows where the date's year
+    disagrees with the <code>year</code> column, which is why we drop that column as redundant. Missing values are
+    about 0.72% and confined to <code>direccion</code> and <code>comuna</code>. One row has an unparseable list
+    price. The only large anomaly is a real business finding, not a data error: 11,966 sales with negative margin.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Why fill missing comunas with UNKNOWN instead of dropping those rows?</div>
+  <div class="a">Because those rows carry a valid brand, price and margin. Dropping them would quietly reduce every
+    revenue and margin total, which hides money. Marking geography as unknown loses one attribute; dropping the row
+    loses the sale.</div>
+  <div class="say"><b>Say:</b> "We delete data only when the row cannot answer any question. One row met that bar."</div>
+</div>
+
+<div class="qa">
+  <div class="q">Negative margins look like outliers. Why keep them?</div>
+  <div class="a">They are the finding. 11,966 deals, 2.18% of the file, roughly 6.8 bn CLP of leaked margin, about 2.7%
+    of all retail margin. If we treated them as outliers and removed them, we would have deleted the single most
+    actionable result in the project and Model B would have had no target left to predict.</div>
+</div>
+
+<div class="qa">
+  <div class="q">What did you engineer, and why each one?</div>
+  <div class="a"><code>brand_origin</code> (Chinese versus Incumbent) because the strategic question is about origin,
+    not about nine individual brands. <code>margin_pct</code> because absolute margin confounds price with pricing
+    health. <code>loss_making</code> as the model target. <code>price_band</code> as a tercile of list price
+    (Economy, Mid, Premium) so price can enter descriptive views as a category. And year, month, quarter rebuilt from
+    the date for the time views.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Which brands count as Chinese, and who decided?</div>
+  <div class="a">JAC Cars, Great Wall, Changan, Geely and Haval. The rest — Suzuki, Mazda, Renault, Samsung — are
+    incumbents. It is an explicit set in the notebook, not an inferred rule, so anyone can challenge or edit it in one
+    line.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Why Parquet rather than CSV for the clean table?</div>
+  <div class="a">Parquet keeps column types, so a date stays a date and the category stays a category on reload. It is
+    also less than half the size: 51 MB against 109 MB as CSV. We ship a 2,000-row CSV sample for anyone who wants to
+    look at the data in a spreadsheet, and the README shows the one line that writes a full CSV.</div>
+</div>
+
+<h2><span class="num">3</span>What the exploratory analysis showed</h2>
+
+<table>
+  <caption>The descriptive findings, with the exact figures behind each claim</caption>
+  <tr><th>Finding</th><th>The numbers</th></tr>
+  <tr><td>Brand concentration</td><td>Suzuki 38.8%, Mazda 17.8%, Renault 10.9%, JAC 9.1%, Great Wall 8.5%, Changan 8.2%, Samsung 3.5%, Geely 1.7%, Haval 1.6%</td></tr>
+  <tr class="hi"><td>The structural shift</td><td>Chinese-brand share 12.2% (2009) to 51.8% (2022); rose to 31.1% in 2012, fell to 19.5% in 2016, climbed again from 2019</td></tr>
+  <tr><td>Channel mix and pricing</td><td>ces 357,983 deals and 6.24% margin; propio 192,049 deals and 5.20% margin, a gap of 1.04 points</td></tr>
+  <tr class="hi"><td>Where the leak sits</td><td>propio loses money on 5.38% of deals against 0.46% at ces, about 11 times more often</td></tr>
+  <tr><td>Loss rate by brand</td><td>Mazda 4.15% (-3.42 bn), Samsung 3.65%, Haval 3.43%, Renault 2.18%, Suzuki 1.78% (-1.61 bn), Changan lowest at 1.05%</td></tr>
+  <tr><td>Geographic concentration</td><td>top 10 comunas 33.4% of sales, top 20 49.8%, top 50 74.6%, out of 511 comunas</td></tr>
+  <tr><td>Seasonality</td><td>August peaks at 10.6% of annual volume, December 10.3%, April troughs at 6.9%</td></tr>
+</table>
+
+<div class="qa">
+  <div class="q">Chinese brands went from 12% to 52%. Is that not just a partial-year artefact?</div>
+  <div class="a">No, and we say the caveat before the chart. 2009 starts in May and 2022 ends in March, so both end
+    years are partial. That is exactly why we compare <em>shares</em> and never totals at the two ends. A share is
+    unaffected by how many months the year contains. The path also supports the claim: it is not a straight line, it
+    dips to 19.5% in 2016 and recovers from 2019, and it crosses 50% only in the final year.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Why is Mazda's leaked amount the largest if its loss rate is not the highest by much?</div>
+  <div class="a">Because leakage is rate times volume times ticket size. Mazda is 4.15% of 97,745 deals at a high
+    average price, so it accounts for 3.42 bn of the 6.84 bn. Suzuki has a much lower rate, 1.78%, but on 213,402
+    deals, which still adds 1.61 bn. That is why the recommendation targets deals, not brands.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Why does the dealer channel price better than DERCO's own stores?</div>
+  <div class="a">We do not know, and we say so. Plausible drivers are discount authority sitting lower in an own
+    store, or own stores absorbing trade-ins and fleet deals that dealers pass on. We have no field in this dataset
+    that separates those, which is precisely why we recommend <em>reviewing</em> those deals rather than closing or
+    restructuring the channel.</div>
+  <div class="say"><b>Say:</b> "That is correlation. The honest response is a review process, not a reorganisation."</div>
+</div>
+
+<h2><span class="num">4</span>Model A — customer segmentation</h2>
+
+<div class="qa">
+  <div class="q">How is the RFM table built?</div>
+  <div class="a">One row per customer hash. Recency is days since the last purchase, measured against a reference date
+    of the last date in the file plus one day. Frequency is the number of purchases. Monetary is total list price. We
+    also carry total margin per customer so we can report margin share by segment.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Why log-transform and standardise before clustering?</div>
+  <div class="a">KMeans measures Euclidean distance, so a skewed axis dominates the geometry. Frequency and monetary
+    are heavily right-skewed because a handful of fleet buyers spend orders of magnitude more than the median, so we
+    apply <code>log1p</code> to compress that tail, then standardise all three axes to mean 0 and standard deviation 1
+    so no single variable outweighs the others. We compress the outliers rather than delete them, because fleet buyers
+    are real customers.</div>
+</div>
+
+<div class="qa">
+  <div class="q">How did you choose k = 4? The silhouette says otherwise.</div>
+  <div class="a">We tested k = 2 through 7 with the elbow and the silhouette, and we state the trade-off instead of
+    hiding it. k = 2 scores highest at 0.539 but only separates recent from old customers, which is one bit of
+    information and no marketing action. k = 5 scores 0.400 against 0.393 for k = 4, a difference of 0.007 that is
+    noise, and it splits a group the CRM would treat identically. k = 4 sits at the elbow, holds a usable silhouette,
+    and maps one-to-one onto the four plays a CRM actually runs: retain, grow, nurture, cap spend.</div>
+  <div class="say"><b>Say:</b> "Silhouette alone does not settle k. We broke the tie on actionability and we published
+    the whole curve so you can disagree with us."</div>
+</div>
+
+<table>
+  <caption>Silhouette by k, on a seeded 30,000-customer sample for speed</caption>
+  <tr><th>k</th><th class="n">2</th><th class="n">3</th><th class="n">4</th><th class="n">5</th><th class="n">6</th><th class="n">7</th></tr>
+  <tr><td>silhouette</td><td class="n">0.539</td><td class="n">0.468</td><td class="n">0.393</td><td class="n">0.400</td><td class="n">0.391</td><td class="n">0.384</td></tr>
+</table>
+
+<table>
+  <caption>The four segments, named from the cluster profile by descending monetary value</caption>
+  <tr><th>Segment</th><th class="n">Customers</th><th class="n">Margin</th><th class="n">Avg buys</th><th>Play</th></tr>
+  <tr class="hi"><td>Champions (repeat, high-value)</td><td class="n">14.0%</td><td class="n">25.7%</td><td class="n">2.31</td><td>Retain</td></tr>
+  <tr><td>Big-ticket one-timers</td><td class="n">22.8%</td><td class="n">30.6%</td><td class="n">1.00</td><td>Grow</td></tr>
+  <tr><td>Mainstream one-timers</td><td class="n">32.5%</td><td class="n">24.3%</td><td class="n">1.00</td><td>Nurture</td></tr>
+  <tr><td>Dormant / lapsed</td><td class="n">30.8%</td><td class="n">19.5%</td><td class="n">1.00</td><td>Cap spend</td></tr>
+</table>
+
+<div class="qa">
+  <div class="q">Big-ticket one-timers carry more margin than Champions. Why is the recommendation about Champions?</div>
+  <div class="a">Because a retention program needs customers who can come back, and Champions are the only group that
+    ever does, at 2.31 purchases on average. Big-ticket one-timers hold 30.6% of margin but buy once, so the play
+    there is different: grow the basket at the point of sale, not run loyalty spend against people who never return.
+    Both plays are in the table; we lead with retention because it is the cheaper margin.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Are the segment names not just labels you invented?</div>
+  <div class="a">The names are ours; the groups are not. Clusters are ordered by mean monetary value and named from the
+    profile table, which shows recency, frequency, monetary and margin share per cluster. Anyone can rename them; the
+    partition and the numbers do not change.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Why KMeans instead of RFM quantile scoring, hierarchical clustering or DBSCAN?</div>
+  <div class="a">Quantile scoring would impose the segments rather than discover them, which defeats the purpose of the
+    exercise. Hierarchical clustering does not scale comfortably to 464,226 customers. DBSCAN needs a density
+    structure this data does not have, and would push most one-time buyers into noise. KMeans is the standard, it
+    scales, and it is inspectable, which matters more here than squeezing out a marginally better partition.</div>
+</div>
+
+<h2><span class="num">5</span>Model B — predicting loss-making deals</h2>
+
+<div class="qa">
+  <div class="q">What is the target and what does the model see?</div>
+  <div class="a">The target is <code>loss_making</code>, one when margin is below zero. The features are only what is
+    known before a deal closes: list price, month and year as numeric; brand, channel and comuna as categorical, with
+    comuna limited to the 30 largest and the tail bucketed as OTHER to control cardinality. Numeric features are
+    standardised and categoricals one-hot encoded inside a pipeline, so the preprocessing is fitted on the training
+    fold only.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Where is the leakage risk, and how did you avoid it?</div>
+  <div class="a">This is the most important choice in the whole model. The target is derived from
+    <code>margen_retail</code>, so feeding the model <code>margen_retail</code> or <code>margin_pct</code> would let
+    it read the answer instead of predicting it. Both are excluded, along with anything else derived from margin. The
+    resulting scores are lower than a leaky model would show, and they are real.</div>
+  <div class="say"><b>Say:</b> "If we had left margin in, the AUC would have been near 1.0 and the model would have
+    been worthless in production, because at quotation time nobody knows the margin yet."</div>
+</div>
+
+<div class="qa">
+  <div class="q">How was the model validated?</div>
+  <div class="a">A stratified 75/25 split, 412,524 training rows and 137,508 test rows, with stratification so the
+    2.18% base rate holds in both. Then 5-fold cross-validation on the full dataset. We also ran two baselines first,
+    because a score means nothing without one.</div>
+</div>
+
+<table>
+  <caption>Model comparison on the hold-out test set. Base rate, and therefore random PR-AUC, is 0.022</caption>
+  <tr><th>Model</th><th class="n">ROC-AUC</th><th class="n">PR-AUC</th><th>Read</th></tr>
+  <tr><td>Dummy (stratified)</td><td class="n">0.501</td><td class="n">0.022</td><td>the floor, equals random</td></tr>
+  <tr><td>Logistic regression, balanced</td><td class="n">0.813</td><td class="n">0.077</td><td>a linear model already beats random</td></tr>
+  <tr class="hi"><td>HistGradientBoosting, balanced</td><td class="n">0.855</td><td class="n">0.142</td><td>chosen; 5-fold CV 0.828, std 0.016</td></tr>
+</table>
+
+<div class="qa">
+  <div class="q">Why do you quote 0.83 when the hold-out says 0.855?</div>
+  <div class="a">Because the 5-fold folds run 0.808 to 0.849 with a mean of 0.828 and a standard deviation of 0.016.
+    The single hold-out split sits at the top of that range, so quoting it would be quoting our luckiest number. The
+    cross-validated mean is the honest generalisation estimate.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Why ROC-AUC and PR-AUC rather than accuracy?</div>
+  <div class="a">Accuracy is meaningless at a 2.18% base rate: predicting "never a loss" scores 97.8% and finds
+    nothing. ROC-AUC measures ranking quality across all thresholds, which is what a review queue needs. PR-AUC is the
+    honest view under imbalance because it ignores the enormous true-negative mass; at 0.142 against a 0.022 base
+    rate, it is about 6.5 times better than random.</div>
+</div>
+
+<div class="qa">
+  <div class="q">How does the score become a business decision?</div>
+  <div class="a">We do not use a 0.5 threshold. We rank the test deals by predicted risk and take as many as the
+    pricing team can actually review. At 10% of deals, the queue contains 50.6% of all loss-making deals, 11.0% of the
+    flagged deals truly lose money, and that is 5.1 times better than reviewing a random 10%. The threshold is a
+    capacity decision the client sets, not a statistic we impose.</div>
+  <div class="say"><b>Say:</b> "The deliverable is a daily watchlist sized to the team that has to work it."</div>
+</div>
+
+<div class="qa">
+  <div class="q">What drives the risk?</div>
+  <div class="a">Permutation importance, measured as the drop in ROC-AUC when a feature is shuffled, on a seeded
+    20,000-row sample with 5 repeats: brand, list price and channel lead. That is consistent with the EDA, where Mazda
+    and Samsung carry the highest loss rates and own stores close below cost about 11 times more often than dealers.
+    Two independent views agreeing is a good sign; neither of them is a causal claim.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Why HistGradientBoosting rather than XGBoost, a random forest or a neural network?</div>
+  <div class="a">It is in scikit-learn, so it needs no extra dependency; it handles mixed tabular features and
+    interactions natively; it trains on 550,000 rows in seconds; and it supports <code>class_weight='balanced'</code>,
+    which matters at a 2.18% base rate. On tabular data of this size a neural network would add complexity and
+    training time without a credible accuracy gain. We also report a logistic baseline, so the panel can see exactly
+    what the extra model complexity bought: 0.813 to 0.855 ROC-AUC and 0.077 to 0.142 PR-AUC.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Did you tune hyperparameters?</div>
+  <div class="a">No. We used the library defaults with balanced class weights and spent the effort on the things that
+    actually decide whether the model is usable: excluding leakage, stratifying the split, cross-validating, comparing
+    against two baselines, and converting the score into a capacity-sized review rule. A tuning sweep would likely add
+    a small amount of AUC and would not change any recommendation. If the client deploys this, tuning and calibration
+    belong in that project, along with a monitored flag rate.</div>
+</div>
+
+<h2><span class="num">6</span>The recommendation and its value</h2>
+
+<div class="qa">
+  <div class="q">What are you actually asking the client to do?</div>
+  <div class="a">Three funded moves for FY2026. Retain: a loyalty program aimed at Champions and at converting
+    one-timers. Formalise China: treat Chinese brands as a first-class portfolio in pricing, stock and marketing,
+    because they are already the majority of sales. Plug the leak: run the classifier as a pre-approval check on the
+    riskiest 10% of deals, starting with the own-store channel where the leak concentrates.</div>
+</div>
+
+<div class="qa">
+  <div class="q">How much money does this recover?</div>
+  <div class="a">In relative terms, the leak is about 2.7% of all retail margin, and reviewing the riskiest 10% of
+    deals puts about half of it in front of a human. We deliberately do not promise a peso figure, because the money
+    fields are synthetic. The right way to size it is to run the review for one quarter and measure the margin saved
+    on flagged deals against the review cost.</div>
+</div>
+
+<div class="qa">
+  <div class="q">What would you measure to know the recommendation worked?</div>
+  <div class="a">Loss-making-deal rate overall and by channel, which should fall; repeat-customer rate, which should
+    rise; margin percentage by channel; and the flag rate by channel and comuna, which should be monitored so the
+    review does not simply harden a bias. Those are the same KPIs we defined in Stage 1, which is the point of
+    defining them before the analysis.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Why not recommend dropping Suzuki or closing own stores?</div>
+  <div class="a">Because the evidence does not support either. Suzuki is 38.8% of volume and its loss rate is below
+    average at 1.78%; concentration is a risk to manage, not a brand to cut. Own stores are 35% of volume and the loss
+    is concentrated in a subset of their deals, which is an argument for a pricing control, not for closing a channel.
+    We recommend the smallest intervention the evidence justifies.</div>
+</div>
+
+<h2><span class="num">7</span>Ethics, privacy and bias</h2>
+
+<div class="qa">
+  <div class="q">The customer ID is hashed. Is the data anonymous?</div>
+  <div class="a">No, and treating a hash as anonymity is a common mistake. A RUT is short and check-digit validated,
+    so anyone with the same hash function can enumerate candidate RUTs and match them back. We treat the column as
+    personal data: it is only a grouping key for the RFM table, never a model feature, and it never appears at row
+    level in the deck, the PDF or the dashboard.</div>
+</div>
+
+<div class="qa">
+  <div class="q">What did you do about the address field?</div>
+  <div class="a">Dropped it in Stage 2 as data minimisation. It is not in the clean Parquet, not in the sample CSV and
+    not in any model. We kept comuna because municipality is the geographic unit the decision needs and it is coarse
+    enough not to locate a household.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Where is this analysis biased?</div>
+  <div class="a">Four places, and we name them before anyone asks. Geographically: the top 10 comunas hold 33.4% of
+    rows, so "valuable customer" is partly a proxy for "urban customer", and a retention budget allocated straight off
+    the segment table would under-serve rural comunas. Survivorship: we only see closed DERCO sales, never the
+    customers who walked away or bought a competitor. Feedback loop: a deployed Model B flags own-store deals more
+    often, so reviewers see more of them and confirm the pattern, which is why flag rate by channel and comuna has to
+    be monitored and the model refitted on post-deployment data. And segment realism: a silhouette of 0.39 means the
+    four groups are a marketing convenience, not four natural populations, so no customer should ever be told which
+    one they are in.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Would you let this model reject a deal automatically?</div>
+  <div class="a">No. Of the deals it flags, 11.0% actually lose money, which is excellent for triage and unacceptable
+    for automatic rejection. It produces a review queue; a human decides. That is stated in the notebook, on the
+    slide, and in the recommendation itself.</div>
+</div>
+
+<h2><span class="num">8</span>Process, tooling and reproducibility</h2>
+
+<div class="qa">
+  <div class="q">How do we know the numbers on the slides match the notebook?</div>
+  <div class="a">Because no number on a slide is typed by hand. Stage 4 writes <code>presentation/metrics.json</code>,
+    and both the HTML deck and the PowerPoint builder read from it. If the analysis changes, the slides change on the
+    next build or they break loudly. The same file feeds the static dashboard image.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Is the analysis reproducible?</div>
+  <div class="a">Yes. One seed, <code>SEED = 42</code>, governs the KMeans initialisation, the silhouette sample, the
+    train/test split, the cross-validation folds, the permutation-importance sample and the CSV sample. A full
+    Restart and Run All takes about five to ten minutes and regenerates the clean Parquet, the CSV sample, the
+    dashboard image and the metrics file identically. We verified this: re-running produced byte-identical
+    <code>metrics.json</code>, <code>dashboard.png</code> and sample CSV.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Can the notebook run somewhere other than your laptop?</div>
+  <div class="a">Yes. Paths are resolved at run time rather than hard-coded: the notebook walks up from the working
+    directory looking for a <code>data/</code> folder or the source workbook, so it runs unchanged from
+    <code>notebooks/</code>, from the repository root, from the flat submission folder, or from Colab once the
+    workbook is uploaded. It prints the folders it resolved in the setup cell.</div>
+</div>
+
+<div class="qa">
+  <div class="q">Why a notebook rather than Power BI or Tableau?</div>
+  <div class="a">Because the deliverable has to be auditable end to end. A notebook shows the cleaning decisions, the
+    model choices and the validation next to their outputs, which a dashboard tool hides. We still deliver the
+    dashboard: the six-KPI view exists as an image and as an interactive HTML page, both fed by the same metrics file.</div>
+</div>
+
+<div class="qa">
+  <div class="q">How was AI used, and what is yours?</div>
+  <div class="a">An AI coding assistant was used as a pair-programmer: boilerplate such as plot styling and pipeline
+    wiring, structural suggestions for the RFM and classifier code, and drafts of explanatory prose. The business
+    framing, the methodological choices — k = 4, the leakage rule, the 10% review threshold — the interpretation and
+    the recommendation are ours, every line was reviewed, and no number was written by hand: everything reproduces on
+    a Restart and Run All. The disclosure is in notebook section 6 and in the README.</div>
+</div>
+
+<h2><span class="num">9</span>The hard questions</h2>
+
+<div class="qa trap">
+  <div class="q">Your money is synthetic. Why should the client believe any of this?</div>
+  <div class="a">Because the obfuscation preserves the structure we use. Shares, rankings and trends are computed from
+    ratios of the same transformed field, so "Chinese brands are the majority", "2.18% of deals close below cost" and
+    "own stores lose money 11 times more often" hold regardless of the scaling. What does not hold is the absolute
+    level, which is why we never present 6.8 bn CLP as an audited number and why the first action we recommend is a
+    one-quarter measurement against real financials.</div>
+</div>
+
+<div class="qa trap">
+  <div class="q">PR-AUC of 0.14 is a weak model.</div>
+  <div class="a">In absolute terms it is modest and we say so on the slide. In context it is 6.5 times the 0.022 base
+    rate, and the decision it supports does not need precision: it needs a ranking good enough that a fixed review
+    capacity finds most of the losses. At 10% capacity it finds 50.6%. If we needed to auto-reject deals, this model
+    would not be good enough, and that is exactly why we do not propose that.</div>
+</div>
+
+<div class="qa trap">
+  <div class="q">Your segmentation has a silhouette of 0.39. That is weak clustering.</div>
+  <div class="a">Agreed, and we published the full curve rather than the best-looking number. The data is dominated by
+    one-time buyers, so there are no cleanly separated spheres to find; any method would show this. The segments are
+    still useful because the business action differs by group and the margin shares differ materially. We treat them
+    as a marketing partition to be revalidated yearly, not as a discovered truth.</div>
+</div>
+
+<div class="qa trap">
+  <div class="q">Champions have more margin because they buy more. Is that not circular?</div>
+  <div class="a">Partly, and it is worth separating. The circular part is that frequency feeds both the cluster and the
+    margin total. The non-circular part is the ratio: 14.0% of customers carry 25.7% of margin, and they are the only
+    group whose average purchase count exceeds one, at 2.31. The recommendation does not claim that loyalty causes
+    margin; it claims that the only repeat behaviour in the file sits in one identifiable group, so that is where a
+    retention test should start.</div>
+</div>
+
+<div class="qa trap">
+  <div class="q">Is 86% buying once not just customers changing their RUT or buying through a company?</div>
+  <div class="a">That is the most plausible challenge to our loyalty conclusion and we flag it as a limitation. We
+    cannot distinguish a genuine one-time buyer from an unstable key across 14 years without business confirmation.
+    That is why the recommendation is to fund a retention <em>test</em> and validate the key with the CRM team first,
+    rather than committing the full budget on our number.</div>
+</div>
+
+<div class="qa trap">
+  <div class="q">Chinese brands grew. Does that mean DERCO should push them harder?</div>
+  <div class="a">It means the organisation should treat them as core rather than as a side bet, which is a structural
+    claim about pricing, stock and marketing ownership. Whether pushing them harder increases margin is a different
+    question that this data cannot answer: we see what was sold, not what was offered, discounted or refused. A
+    pricing experiment would settle it.</div>
+</div>
+
+<div class="qa trap">
+  <div class="q">You had 550,000 rows and 14 years. Why is there no forecast?</div>
+  <div class="a">Because the decision on the table is where to move next year's budget, not what next month's volume
+    will be. A forecast would look sophisticated and change nothing about the three moves. If the client wants
+    capacity planning, monthly volume with the August peak and April trough is the natural next project, and the
+    clean table already supports it.</div>
+</div>
+
+<div class="qa trap">
+  <div class="q">What would you do differently with more time?</div>
+  <div class="a">Three things. Validate the customer key with the CRM to firm up the loyalty conclusion. Calibrate
+    Model B's probabilities and tune it, so the review threshold can be set on expected value rather than on capacity
+    alone. And bring in one external field, either list-price history or a competitor volume index, so at least one
+    claim could move from correlation toward causation.</div>
+</div>
+
+<h2><span class="num">10</span>Who answers what</h2>
+
+<p>Presenting order and question ownership differ on purpose. You present the slide; whoever built that part answers
+the deep question. Hand over out loud, by name.</p>
+
+<table>
+  <tr><th>Owner</th><th>Presents</th><th>Answers anything about</th></tr>
+  <tr><td>Baptiste Vial</td><td>Slides 1 to 3</td><td>framing, scope, the client, insight synthesis, ethics and limits, the dashboard and deck build</td></tr>
+  <tr><td>Luis-Felipe Cáceres</td><td>Slides 4 to 6</td><td>both models: RFM construction, choice of k, leakage, validation, metrics, the 10% rule</td></tr>
+  <tr><td>Agustín Reyes</td><td>Slides 7 to 9</td><td>data quality, cleaning decisions, feature engineering, every EDA chart</td></tr>
+  <tr><td>Vicente Rodríguez</td><td>Slides 10 to 13</td><td>KPIs and success metrics, reproducibility, environment, repository and data documentation</td></tr>
+</table>
+
+<div class="note"><b>If a question has no good answer.</b> Say what you do know, say what would settle it, and stop.
+"We cannot answer that with this dataset. What would settle it is X." A clean boundary reads as competence; a guess
+that unravels does not.</div>
+
+<h2><span class="num">A</span>Appendix — every number we quote</h2>
+
+<div class="cols">
+<table>
+  <caption>Scope and data</caption>
+  <tr><td>Raw rows</td><td class="n">550,033</td></tr>
+  <tr><td>Rows after cleaning</td><td class="n">550,032</td></tr>
+  <tr><td>Rows dropped</td><td class="n">1 (null list price)</td></tr>
+  <tr><td>Unique customers</td><td class="n">464,226</td></tr>
+  <tr><td>Brands / models / comunas</td><td class="n">9 / 1,543 / 511</td></tr>
+  <tr><td>Date range</td><td class="n">2009-05-05 to 2022-03-28</td></tr>
+  <tr><td>Missing comuna</td><td class="n">0.72%</td></tr>
+  <tr><td>Duplicate rows</td><td class="n">0</td></tr>
+  <tr><td>Date-versus-year mismatches</td><td class="n">0</td></tr>
+  <tr><td>Zero-margin sales</td><td class="n">26</td></tr>
+  <tr><td>Clean table</td><td class="n">550,032 × 15</td></tr>
+</table>
+
+<table>
+  <caption>Commercial findings</caption>
+  <tr><td>Chinese share 2009 / 2022</td><td class="n">12.2% / 51.8%</td></tr>
+  <tr><td>Chinese share low point (2016)</td><td class="n">19.5%</td></tr>
+  <tr><td>Suzuki share of volume</td><td class="n">38.8%</td></tr>
+  <tr><td>ces volume / margin</td><td class="n">65.1% / 6.24%</td></tr>
+  <tr><td>propio margin</td><td class="n">5.20%</td></tr>
+  <tr><td>Loss-making deals</td><td class="n">11,966 (2.18%)</td></tr>
+  <tr><td>Leaked margin</td><td class="n">-6.84 bn CLP</td></tr>
+  <tr><td>Share of all retail margin</td><td class="n">about 2.7%</td></tr>
+  <tr><td>Loss rate propio / ces</td><td class="n">5.38% / 0.46%</td></tr>
+  <tr><td>Top-10 comuna share</td><td class="n">33.4%</td></tr>
+  <tr><td>Peak / trough month</td><td class="n">August / April</td></tr>
+</table>
+</div>
+
+<div class="cols">
+<table>
+  <caption>Model A</caption>
+  <tr><td>Customers clustered</td><td class="n">464,226</td></tr>
+  <tr><td>Features</td><td class="n">R, F, M</td></tr>
+  <tr><td>Transform</td><td class="n">log1p F and M, then standardise</td></tr>
+  <tr><td>k tested</td><td class="n">2 to 7</td></tr>
+  <tr><td>k chosen</td><td class="n">4</td></tr>
+  <tr><td>Silhouette at k = 4</td><td class="n">0.393</td></tr>
+  <tr><td>Champions</td><td class="n">14.0% cust / 25.7% margin</td></tr>
+  <tr><td>Champions avg purchases</td><td class="n">2.31</td></tr>
+  <tr><td>Customers buying once</td><td class="n">85.9%</td></tr>
+</table>
+
+<table>
+  <caption>Model B</caption>
+  <tr><td>Target base rate</td><td class="n">2.18%</td></tr>
+  <tr><td>Train / test rows</td><td class="n">412,524 / 137,508</td></tr>
+  <tr><td>Split</td><td class="n">75/25, stratified</td></tr>
+  <tr><td>ROC-AUC hold-out</td><td class="n">0.855</td></tr>
+  <tr><td>ROC-AUC 5-fold</td><td class="n">0.828, std 0.016</td></tr>
+  <tr><td>Fold range</td><td class="n">0.808 to 0.849</td></tr>
+  <tr><td>PR-AUC vs base</td><td class="n">0.142 vs 0.022</td></tr>
+  <tr><td>Top-10% capture</td><td class="n">50.6%</td></tr>
+  <tr><td>Precision in flagged set</td><td class="n">11.0%</td></tr>
+  <tr><td>Lift over random</td><td class="n">5.1×</td></tr>
+</table>
+</div>
+
+<h2><span class="num">B</span>Appendix — notebook map</h2>
+
+<table>
+  <tr><th>Section</th><th>What it establishes</th></tr>
+  <tr><td>1.1 to 1.4</td><td>business question, decision-maker, six KPIs, project success metric, synthetic-money caveat</td></tr>
+  <tr><td>2.2 to 2.3</td><td>parsing the pipe-delimited sheet, typing, data dictionary</td></tr>
+  <tr><td>2.4 to 2.5</td><td>quality audit and every cleaning decision with its rationale</td></tr>
+  <tr><td>2.6</td><td>feature engineering: brand_origin, margin_pct, loss_making, price_band, calendar parts</td></tr>
+  <tr><td>2.7 (a) to (h)</td><td>EDA: brand mix, channel, 14-year trend, seasonality, the Chinese shift, geography, margin health, takeaways</td></tr>
+  <tr><td>2.8</td><td>writes the clean Parquet and the CSV sample</td></tr>
+  <tr><td>3A.1 to 3A.3</td><td>RFM table, choice of k with elbow and silhouette, segment naming and profile</td></tr>
+  <tr><td>3B.1 to 3B.6</td><td>leakage rule, baselines, gradient boosting, cross-validation, ROC and PR curves, the 10% rule, permutation importance</td></tr>
+  <tr><td>4.1 to 4.3</td><td>five ranked insights, the recommendation, the dashboard and the metrics export</td></tr>
+  <tr><td>5.1 to 5.3</td><td>privacy, bias, honest limitations</td></tr>
+  <tr><td>6</td><td>AI-use disclosure and contribution summary</td></tr>
+</table>
+
+<h2><span class="num">C</span>Appendix — glossary</h2>
+
+<table>
+  <tr><th>Term</th><th>In one sentence</th></tr>
+  <tr><td>RFM</td><td>Describing a customer by how recently they bought, how often, and how much they spent.</td></tr>
+  <tr><td>KMeans</td><td>An algorithm that groups points into k clusters by repeatedly assigning each point to the nearest cluster centre.</td></tr>
+  <tr><td>Elbow method</td><td>Plotting within-cluster spread against k and choosing the point where adding clusters stops helping much.</td></tr>
+  <tr><td>Silhouette</td><td>A score from -1 to 1 for how much closer a point is to its own cluster than to the next nearest one.</td></tr>
+  <tr><td>Data leakage</td><td>Letting a model see information that would not exist at prediction time, usually something derived from the answer.</td></tr>
+  <tr><td>Class imbalance</td><td>One outcome being far rarer than the other, here 2.18%, which makes accuracy useless as a measure.</td></tr>
+  <tr><td>Stratified split</td><td>Splitting train and test so the rare class keeps the same proportion in both.</td></tr>
+  <tr><td>Cross-validation</td><td>Rotating which fifth of the data is held out, five times, to check the score is not a lucky split.</td></tr>
+  <tr><td>ROC-AUC</td><td>The chance the model ranks a random loss-making deal above a random profitable one; 0.5 is random.</td></tr>
+  <tr><td>PR-AUC</td><td>Precision against recall summarised in one number; the fair measure when the positive class is rare.</td></tr>
+  <tr><td>Lift</td><td>How much better a targeted selection is than picking the same number of cases at random.</td></tr>
+  <tr><td>Permutation importance</td><td>Shuffling one feature and measuring how much the score drops, which shows what the model relies on.</td></tr>
+  <tr><td>One-hot encoding</td><td>Turning a category such as brand into one yes/no column per value so a model can use it.</td></tr>
+  <tr><td>Parquet</td><td>A compressed columnar file format that preserves column types, unlike CSV.</td></tr>
+</table>
+
+<div class="foot">
+  Every figure in this document is computed by <code>notebooks/BI2026_FinalProject.ipynb</code> and exported to
+  <code>presentation/metrics.json</code>. Money fields are synthetic: shares, ranks and trends are valid, absolute
+  CLP amounts are not. Regenerate this pack with
+  <code>chrome --headless --print-to-pdf</code> over <code>presentation/qa_defense.html</code>.
+</div>
+
+</div>
+</body>
+</html>
