@@ -143,7 +143,7 @@ table.tv caption{text-align:left;color:var(--muted);font-size:.78rem;padding-bot
 .dash .tile{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:.9rem 1rem}
 .dash .tile .n{font-size:clamp(1.4rem,2.4vw,2rem)}
 .meter{height:8px;background:var(--plane);border-radius:99px;margin-top:.6rem;overflow:hidden}
-.meter i{display:block;height:100%;width:0;border-radius:99px;background:var(--red);
+.meter i{display:block;height:100%;width:0;min-width:4px;border-radius:99px;background:var(--red);
   transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
 .slide.on .meter i{width:var(--w)}
 .meter i.green{background:var(--green)}
@@ -268,7 +268,7 @@ table.tv caption{text-align:left;color:var(--muted);font-size:.78rem;padding-bot
     <p class="sub" style="font-size:1.1rem;margin-top:1.4rem">Retail vehicle sales · May 2009 → March 2022</p>
     <div class="tag"><span class="dot"></span> Vicente Rodríguez · Agustín Reyes · Luis-Felipe Cáceres · Baptiste Vial</div>
   </div>
-  <div class="foot"><span>IIB415A · Business Intelligence</span><span>Acting as DERCO's BI unit</span></div>
+  <div class="foot"><span class="speaker">▶ Baptiste</span><span>Acting as DERCO's BI unit</span></div>
 </section>
 
 <!-- ══════════ 2 · THE ASK ══════════ -->
@@ -442,7 +442,7 @@ table.tv caption{text-align:left;color:var(--muted);font-size:.78rem;padding-bot
   <div class="reveal">
     <div class="kicker">07 · Model A — customer segmentation</div>
     <h2 class="wide">Who should DERCO retain? The 14% that come back.</h2>
-    <p>RFM (Recency · Frequency · Monetary) → log-scaled → KMeans. We tested k = 2…7 with elbow + silhouette
+    <p style="max-width:none">RFM (Recency · Frequency · Monetary) → log-scaled → KMeans. We tested k = 2…7 with elbow + silhouette
       and chose <b>k = 4</b> — the elbow, a healthy silhouette, <i>and</i> four groups that map onto four real
       marketing plays.</p>
     <div class="two wide-l" style="margin-top:1rem">
@@ -477,7 +477,7 @@ table.tv caption{text-align:left;color:var(--muted);font-size:.78rem;padding-bot
   <div class="reveal">
     <div class="kicker">08 · Model B — predicting loss-making deals</div>
     <h2 class="wide">Flag the money-losers before they close.</h2>
-    <p>Supervised classifier on <b>pre-sale features only</b> — brand, channel, comuna, price, timing.
+    <p style="max-width:none">Supervised classifier on <b>pre-sale features only</b> — brand, channel, comuna, price, timing.
       <b>Margin is excluded to avoid leakage</b> (the target is derived from it). Dummy + logistic baselines →
       HistGradientBoosting, stratified hold-out + 5-fold CV.</p>
     <div class="grid g3">
@@ -497,7 +497,7 @@ table.tv caption{text-align:left;color:var(--muted);font-size:.78rem;padding-bot
 <!-- ══════════ 10 · DASHBOARD ══════════ -->
 <section class="slide">
   <div class="reveal">
-    <div class="kicker">09 · The dashboard the Commercial Director sees</div>
+    <div class="kicker">09 · The dashboard</div>
     <h2 class="wide">Six numbers, one screen.</h2>
     <div class="dash">
       <div class="tile"><div class="n red">51.8%</div><div class="l">of 2022 sales are Chinese brands</div>
@@ -580,7 +580,7 @@ table.tv caption{text-align:left;color:var(--muted);font-size:.78rem;padding-bot
     <div class="tag"><span class="dot"></span> Vicente Rodríguez · Agustín Reyes · Luis-Felipe Cáceres ·
       Baptiste Vial · UDD 2026</div>
   </div>
-  <div class="foot"><span>IIB415A · Business Intelligence</span><span>Ready for your questions</span></div>
+  <div class="foot"><span class="speaker">▶ Vicente</span><span>Ready for your questions</span></div>
 </section>
 
 </div>

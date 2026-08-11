@@ -88,8 +88,13 @@ python presentation/build_notes.py     # -> index.html (press N) + SCRIPT.md
 python presentation/build_pptx.py      # -> the PowerPoint notes pane (presenter view)
 ```
 
-Scripted runtime is **11:35** across 13 slides, split Vicente (1–3) · Agustín (4–7) · Luis-Felipe (8–10) ·
-Baptiste (11–13), leaving slack inside the 15-minute limit. `SCRIPT.md` is **generated** — don't hand-edit it.
+Scripted runtime is **11:35** across 13 slides, split **Baptiste (1–3) · Luis-Felipe (4–6) · Agustín (7–9) ·
+Vicente (10–13)**, leaving slack inside the 15-minute limit. Each slide's footer names its speaker, and the
+same name appears in the notes — deck, PDF and PowerPoint are checked against each other.
+`SCRIPT.md` is **generated** — don't hand-edit it.
+
+> Presenting order and **Q&A ownership differ on purpose**: you present the slide, but whoever *built* that
+> part answers the deep question (see the contribution table below). Hand over out loud.
 
 ### Visual identity
 DERCO's own colours: **deep red `#c00512` on white** (6.4:1 contrast — AA-clean at any text size). Every chart colour is checked for ≥3:1 contrast on the white

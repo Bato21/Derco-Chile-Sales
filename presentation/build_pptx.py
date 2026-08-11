@@ -229,7 +229,7 @@ tf = textbox(s, ML, Inches(4.55), CW, Inches(1.1))
 write(tf, f"Retail vehicle sales · May 2009 → March 2022", 15,
       RGBColor(0xFF, 0xD9, 0xD9), first=True, space_after=9)
 write(tf, "Vicente Rodríguez · Agustín Reyes · Luis-Felipe Cáceres · Baptiste Vial", 14, WHITE)
-footer(s, "IIB415A · Business Intelligence", "Acting as DERCO's BI unit", hero=True)
+footer(s, "▶ Baptiste", "Acting as DERCO's BI unit", hero=True)
 
 # =============================================================== 2 · the ask
 s = slide()
@@ -471,7 +471,7 @@ footer(s, "▶ Agustín → Vicente", "Classification")
 
 # =============================================================== 10 · dashboard
 s = slide()
-kicker(s, "09 · The dashboard the Commercial Director sees")
+kicker(s, "09 · The dashboard")
 title(s, "Six numbers, one screen.", h=0.8)
 tiles = [(f"{M['chinese_2022']}%", "of 2022 sales are Chinese brands", RED_DEEP),
          (f"{M['one_time_pct']}%", "of customers buy exactly once", RED_DEEP),
@@ -548,7 +548,7 @@ write(tf, "Retain Champions · formalise China · plug the margin leak.", 15,
       RGBColor(0xFF, 0xD9, 0xD9), first=True, space_after=9)
 write(tf, "Vicente Rodríguez · Agustín Reyes · Luis-Felipe Cáceres · Baptiste Vial · UDD 2026",
       14, WHITE)
-footer(s, "IIB415A · Business Intelligence", "Ready for your questions", hero=True)
+footer(s, "▶ Vicente", "Ready for your questions", hero=True)
 
 # ------------------------------------------------- speaker notes (presenter view)
 # Same source as the N-overlay in index.html and the script in SCRIPT.md.
