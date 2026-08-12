@@ -20,7 +20,11 @@
   --green:#0ca30c; --green-ink:#006300;
   --grid:#e5e4e0; --line:#e8e7e3; --neutral:#c9c8c3;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
-  --rail:248px;
+  --rail:236px; --bar:58px;
+  /* the brand mark: the app bar is a red band, not a white bar with red text */
+  --bar-bg:linear-gradient(96deg,#7d030e 0%,#a80410 42%,#c00512 100%);
+  --shadow:0 1px 2px rgba(26,26,26,.05);
+  --shadow-lift:0 6px 20px rgba(140,4,16,.10),0 1px 3px rgba(26,26,26,.06);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--plane);color:var(--ink);font-family:var(--sans);
@@ -28,63 +32,98 @@ body{background:var(--plane);color:var(--ink);font-family:var(--sans);
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 ::selection{background:var(--red-wash)}
 
+/* ---------- app bar — the full-bleed red band that carries the identity ---------- */
+.appbar{position:sticky;top:0;z-index:40;height:var(--bar);background:var(--bar-bg);color:#fff;
+  display:flex;align-items:center;gap:1.1rem;padding:0 1.4rem;box-shadow:0 1px 0 rgba(0,0,0,.14)}
+.appbar .wordmark{display:inline-flex;align-items:center;gap:.55rem;font-weight:800;letter-spacing:-.01em;
+  font-size:1.02rem;color:#fff;white-space:nowrap}
+.appbar .wordmark::before{content:"";width:22px;height:10px;background:#fff;border-radius:2px}
+.appbar .div{width:1px;height:24px;background:rgba(255,255,255,.28)}
+.appbar .title{font-size:.9rem;font-weight:600;color:#ffdcdc;letter-spacing:.01em;white-space:nowrap}
+.appbar .title b{color:#fff;font-weight:800}
+.appbar .grow{flex:1}
+.appbar .cover{font-size:.73rem;color:#ffd0d0;line-height:1.45;text-align:right;white-space:nowrap}
+.appbar .cover b{color:#fff;font-variant-numeric:tabular-nums;font-weight:700}
+.appbar .pill-warn{display:inline-flex;align-items:center;gap:.42rem;background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.34);border-radius:99px;padding:.26rem .68rem;font-size:.72rem;
+  font-weight:700;color:#fff;white-space:nowrap}
+.appbar .pill-warn i{width:6px;height:6px;border-radius:50%;background:#fff;display:inline-block}
+.appbar .act{border:1px solid rgba(255,255,255,.4);border-radius:8px;padding:.34rem .72rem;font-size:.76rem;
+  font-weight:700;color:#fff;white-space:nowrap}
+.appbar .act:hover{background:rgba(255,255,255,.16)}
+
 /* ---------- shell ---------- */
-.app{display:grid;grid-template-columns:var(--rail) 1fr;min-height:100vh}
-.rail{background:var(--surface);border-right:1px solid var(--line);position:sticky;top:0;height:100vh;
-  display:flex;flex-direction:column;padding:1.25rem 0 1rem}
-.rail .brand{padding:0 1.15rem 1.15rem;border-bottom:1px solid var(--line)}
-.wordmark{display:inline-flex;align-items:center;gap:.5rem;font-weight:800;letter-spacing:-.02em;
-  font-size:1rem;color:var(--ink)}
-.wordmark::before{content:"";width:22px;height:10px;background:var(--red);border-radius:2px}
-.rail .brand .sub{color:var(--muted);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;
-  font-weight:700;margin-top:.5rem}
-nav{padding:.9rem .7rem;display:flex;flex-direction:column;gap:.15rem}
-nav button{display:flex;align-items:center;gap:.6rem;width:100%;text-align:left;padding:.55rem .7rem;
-  border-radius:8px;color:var(--ink-2);font-size:.9rem;font-weight:600;position:relative}
+.app{display:grid;grid-template-columns:var(--rail) 1fr;align-items:start}
+.rail{background:var(--surface);border-right:1px solid var(--line);position:sticky;top:var(--bar);
+  height:calc(100vh - var(--bar));display:flex;flex-direction:column;padding:1rem 0 1rem}
+.rail .railtag{padding:0 1.1rem .55rem;color:var(--muted);font-size:.66rem;letter-spacing:.16em;
+  text-transform:uppercase;font-weight:700}
+nav{padding:0 .65rem;display:flex;flex-direction:column;gap:.12rem}
+nav button{display:flex;align-items:center;gap:.55rem;width:100%;text-align:left;padding:.5rem .65rem;
+  border-radius:9px;color:var(--ink-2);font-size:.875rem;font-weight:600;position:relative;
+  transition:background .14s,color .14s}
 nav button:hover{background:var(--plane);color:var(--ink)}
 nav button.on{background:var(--red-wash);color:var(--red-deep)}
-nav button.on::before{content:"";position:absolute;left:-.7rem;top:.35rem;bottom:.35rem;width:3px;
-  background:var(--red);border-radius:0 2px 2px 0}
-nav .ix{font-variant-numeric:tabular-nums;font-size:.72rem;color:var(--muted);width:1.1rem}
-nav button.on .ix{color:var(--red)}
-.rail .foot{margin-top:auto;padding:.9rem 1.15rem 0;border-top:1px solid var(--line);
-  color:var(--muted);font-size:.72rem;line-height:1.5}
+nav button.on::before{content:"";position:absolute;left:-.65rem;top:.3rem;bottom:.3rem;width:3px;
+  background:var(--red);border-radius:0 3px 3px 0}
+nav .ix{font-variant-numeric:tabular-nums;font-size:.68rem;font-weight:700;color:var(--muted);
+  background:var(--plane);border-radius:5px;padding:.1rem .3rem}
+nav button.on .ix{color:#fff;background:var(--red)}
+.rail .foot{margin-top:auto;padding:.85rem 1.1rem 0;border-top:1px solid var(--line);
+  color:var(--muted);font-size:.7rem;line-height:1.55}
 .rail .foot b{color:var(--ink-2)}
+.rail .foot .src{display:flex;align-items:center;gap:.35rem;margin-bottom:.2rem}
+.rail .foot .src i{width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block}
 
 main{min-width:0;display:flex;flex-direction:column}
-.topbar{background:var(--surface);border-bottom:1px solid var(--line);padding:1.05rem 1.6rem .95rem;
-  position:sticky;top:0;z-index:30}
-.topbar .row{display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
-.topbar h1{font-size:1.32rem;font-weight:800;letter-spacing:-.02em}
-.topbar .crumb{color:var(--muted);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
-  font-weight:700;margin-bottom:.3rem}
-.topbar .meta{color:var(--muted);font-size:.78rem;text-align:right;line-height:1.55}
-.topbar .meta b{color:var(--ink-2);font-variant-numeric:tabular-nums}
+.topbar{background:var(--surface);border-bottom:1px solid var(--line);padding:.85rem 1.5rem .8rem;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+.topbar h1{font-size:1.28rem;font-weight:800;letter-spacing:-.025em;line-height:1.15}
+.topbar .crumb{display:inline-flex;align-items:center;gap:.45rem;color:var(--red-deep);font-size:.7rem;
+  letter-spacing:.15em;text-transform:uppercase;font-weight:700;margin-bottom:.3rem}
+.topbar .crumb::before{content:"";width:14px;height:3px;background:var(--red);border-radius:2px}
+.topbar .lede{color:var(--muted);font-size:.8rem;margin-top:.28rem;max-width:74ch;line-height:1.45}
 .badge{display:inline-flex;align-items:center;gap:.4rem;background:var(--red-wash);color:var(--red-deep);
   border:1px solid #f5c9c9;border-radius:99px;padding:.2rem .6rem;font-size:.72rem;font-weight:700}
 .badge .dot{width:6px;height:6px;border-radius:50%;background:var(--red)}
 
 /* ---------- filter bar ---------- */
-.filters{background:var(--surface);border-bottom:1px solid var(--line);padding:.7rem 1.6rem .8rem;
-  display:flex;gap:1.4rem;align-items:flex-start;flex-wrap:wrap;position:sticky;top:0;z-index:20}
-.fgroup{display:flex;flex-direction:column;gap:.35rem}
-.fgroup label{color:var(--muted);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
-.fgroup .ctl{display:flex;gap:.3rem;align-items:center;flex-wrap:wrap}
-select{border:1px solid var(--line);background:var(--surface);border-radius:7px;padding:.3rem .5rem;
-  font-size:.84rem;color:var(--ink);font-variant-numeric:tabular-nums}
-select:focus-visible,.chip:focus-visible,nav button:focus-visible,.tbl th:focus-visible{
-  outline:2px solid var(--blue);outline-offset:1px}
-.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:.28rem .68rem;
-  font-size:.8rem;color:var(--ink-2);font-weight:600;white-space:nowrap}
+.filters{background:var(--panel);border-bottom:1px solid var(--line);padding:.62rem 1.5rem .68rem;
+  display:flex;gap:1.25rem;align-items:flex-start;flex-wrap:wrap;position:sticky;top:var(--bar);z-index:20;
+  box-shadow:var(--shadow)}
+.fgroup{display:flex;flex-direction:column;gap:.32rem}
+.fgroup label{color:var(--muted);font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.fgroup .ctl{display:flex;gap:.28rem;align-items:center;flex-wrap:wrap}
+select{border:1px solid var(--line);background:var(--surface);border-radius:7px;padding:.28rem .45rem;
+  font-size:.82rem;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;box-shadow:var(--shadow)}
+select:focus-visible,.chip:focus-visible,nav button:focus-visible,.tbl th:focus-visible,
+.appbar .act:focus-visible,.csv:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.appbar .act:focus-visible{outline-color:#fff}
+/* segmented control — mutually exclusive cuts read as one control, not loose chips */
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:8px;
+  padding:2px;gap:2px;box-shadow:var(--shadow)}
+.seg button{padding:.24rem .6rem;border-radius:6px;font-size:.8rem;font-weight:600;color:var(--ink-2);
+  white-space:nowrap;transition:background .14s,color .14s}
+.seg button:hover{color:var(--ink)}
+.seg button.on{background:var(--red);color:#fff}
+.seg button.on.blue{background:var(--blue)}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:.24rem .6rem;
+  font-size:.78rem;color:var(--ink-2);font-weight:600;white-space:nowrap;box-shadow:var(--shadow);
+  transition:border-color .14s,background .14s,color .14s}
 .chip:hover{border-color:var(--neutral)}
 .chip.on{background:var(--red);border-color:var(--red);color:#fff}
 .chip.on.blue{background:var(--blue);border-color:var(--blue)}
-.chip.ghost{color:var(--muted);font-weight:500}
+.chip.ghost{color:var(--muted);font-weight:600}
 .fspacer{flex:1}
-.freset{align-self:flex-end;color:var(--red-deep);font-weight:700;font-size:.8rem;
-  border:1px solid #f5c9c9;background:var(--red-wash);border-radius:7px;padding:.32rem .7rem}
-.fstat{align-self:flex-end;color:var(--muted);font-size:.78rem;line-height:1.5;text-align:right}
+/* the readout and the reset stay together and stay right, whatever the chips do */
+.fright{margin-left:auto;display:flex;align-items:flex-end;gap:.7rem}
+.freset{align-self:flex-end;color:var(--red-deep);font-weight:700;font-size:.78rem;
+  border:1px solid #f0bcbc;background:var(--red-wash);border-radius:7px;padding:.3rem .7rem}
+.freset:hover{background:#fbdede}
+.fstat{align-self:flex-end;color:var(--muted);font-size:.76rem;line-height:1.5;text-align:right}
 .fstat b{color:var(--ink);font-variant-numeric:tabular-nums}
+.fstat .scope{display:inline-flex;align-items:center;gap:.35rem;color:var(--red-deep);font-weight:700}
+.fstat .scope i{width:6px;height:6px;border-radius:50%;background:var(--red);display:inline-block}
 
 /* ---------- pages & panels ---------- */
 .page{display:none;padding:1.25rem 1.6rem 3rem}
@@ -98,32 +137,62 @@ select:focus-visible,.chip:focus-visible,nav button:focus-visible,.tbl th:focus-
 .k12{grid-template-columns:1fr 1.6fr}
 .mt{margin-top:.85rem}
 
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.95rem 1.1rem 1.05rem;
-  min-width:0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.9rem 1.05rem 1rem;
+  min-width:0;box-shadow:var(--shadow);position:relative;transition:box-shadow .18s,border-color .18s}
+.panel:hover{box-shadow:var(--shadow-lift);border-color:#ddd9d4}
 .panel > header{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.15rem}
-.panel h2{font-size:.94rem;font-weight:700;letter-spacing:-.01em}
-.panel .hint{color:var(--muted);font-size:.74rem;font-weight:600}
+/* eyebrow: a red tick + a letterspaced kicker, the deck's device carried into the console */
+.panel h2{font-size:.94rem;font-weight:700;letter-spacing:-.015em}
+.panel h2::before{content:"";display:block;width:16px;height:3px;background:var(--red);border-radius:2px;
+  margin-bottom:.42rem}
+.panel.acc-blue h2::before{background:var(--blue)}
+.panel .hint{color:var(--muted);font-size:.73rem;font-weight:600;white-space:nowrap}
 .panel .desc{color:var(--muted);font-size:.78rem;line-height:1.45;margin-top:.2rem}
-.panel footer{color:var(--muted);font-size:.72rem;line-height:1.45;margin-top:.7rem;
+.panel footer{color:var(--muted);font-size:.71rem;line-height:1.45;margin-top:.7rem;
   border-top:1px solid var(--line);padding-top:.5rem}
 .panel footer b{color:var(--ink-2)}
 
+/* section rule — breaks a long page into named blocks */
+.sect{display:flex;align-items:center;gap:.7rem;margin:1.3rem 0 .1rem}
+.sect span{color:var(--red-deep);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
+  white-space:nowrap}
+.sect::before{content:"";width:16px;height:3px;background:var(--red);border-radius:2px;flex:none}
+.sect::after{content:"";flex:1;height:1px;background:var(--line)}
+
 /* KPI tile */
-.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.8rem .9rem .85rem;
-  border-top:3px solid var(--red);min-width:0}
-.kpi.blue{border-top-color:var(--blue)} .kpi.green{border-top-color:var(--green)}
-.kpi.grey{border-top-color:var(--neutral)}
-.kpi .k{color:var(--muted);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.7rem .85rem .75rem;
+  min-width:0;box-shadow:var(--shadow);position:relative;overflow:hidden;
+  transition:box-shadow .18s,transform .18s}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--red)}
+.kpi:hover{box-shadow:var(--shadow-lift);transform:translateY(-1px)}
+.kpi.blue::before{background:var(--blue)} .kpi.green::before{background:var(--green)}
+.kpi.grey::before{background:var(--neutral)}
+.kpi .k{color:var(--muted);font-size:.68rem;letter-spacing:.11em;text-transform:uppercase;font-weight:700;
   line-height:1.3}
-.kpi .v{font-size:clamp(1.25rem,2vw,1.62rem);font-weight:800;letter-spacing:-.03em;margin-top:.45rem;
+.kpi .v{font-size:clamp(1.2rem,1.9vw,1.55rem);font-weight:800;letter-spacing:-.035em;margin-top:.4rem;
   line-height:1;white-space:nowrap}
-.kpi .v small{font-size:.62em;font-weight:700;letter-spacing:0;color:var(--ink-2);margin-left:.15rem}
+.kpi .v small{font-size:.6em;font-weight:700;letter-spacing:0;color:var(--ink-2);margin-left:.15rem}
 .kpi .v.red{color:var(--red)} .kpi .v.blue{color:var(--blue-ink)} .kpi .v.green{color:var(--green-ink)}
-.kpi .d{margin-top:.45rem;font-size:.75rem;color:var(--muted);line-height:1.35;
-  font-variant-numeric:tabular-nums}
-.kpi .d .up{color:var(--green-ink);font-weight:700}
-.kpi .d .dn{color:var(--red-deep);font-weight:700}
-.kpi .d .flat{color:var(--ink-2);font-weight:700}
+.kpi .spark{margin-top:.45rem;height:24px}
+.kpi .spark svg{display:block;width:100%;height:24px}
+.kpi .d{margin-top:.4rem;font-size:.72rem;color:var(--muted);line-height:1.4;
+  font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:.35rem;flex-wrap:wrap}
+/* delta chip — direction is carried by the arrow glyph as well as the colour */
+.kpi .d .up,.kpi .d .dn,.kpi .d .flat{display:inline-flex;align-items:center;gap:.15rem;
+  border-radius:99px;padding:.06rem .38rem;font-weight:700;font-size:.71rem;border:1px solid transparent}
+.kpi .d .up{color:var(--green-ink);background:#e8f5e8;border-color:#c9e6c9}
+.kpi .d .dn{color:var(--red-deep);background:var(--red-wash);border-color:#f5c9c9}
+.kpi .d .flat{color:var(--ink-2);background:var(--plane);border-color:var(--line)}
+
+/* inline stat strip — small supporting figures under a chart */
+.statrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(74px,1fr));gap:.45rem;margin-top:.75rem}
+.statrow div{background:var(--plane);border:1px solid var(--line);border-radius:9px;padding:.4rem .5rem}
+.statrow .sv{font-size:1.02rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;
+  line-height:1.1}
+.statrow .sv.red{color:var(--red)} .statrow .sv.blue{color:var(--blue-ink)}
+.statrow .sv.green{color:var(--green-ink)}
+.statrow .sk{color:var(--muted);font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;
+  font-weight:700;margin-top:.25rem;line-height:1.3}
 
 /* charts */
 .chart{width:100%;margin-top:.55rem}
@@ -144,12 +213,15 @@ table.tbl.tight th,table.tbl.tight td{padding:.42rem .35rem}
 table.tbl th,table.tbl td{text-align:right;padding:.42rem .6rem;border-bottom:1px solid var(--line);
   font-variant-numeric:tabular-nums;white-space:nowrap}
 table.tbl th:first-child,table.tbl td:first-child{text-align:left;font-variant-numeric:normal}
-table.tbl th{color:var(--muted);font-weight:700;font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;
-  cursor:pointer;user-select:none;position:sticky;top:0;background:var(--surface);z-index:1}
+table.tbl th{color:var(--muted);font-weight:700;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;
+  cursor:pointer;user-select:none;position:sticky;top:0;background:var(--surface);z-index:1;
+  border-bottom:2px solid var(--grid)}
 table.tbl th:hover{color:var(--ink)}
 table.tbl th .ar{opacity:.35;margin-left:.2rem}
-table.tbl th.sorted{color:var(--red-deep)} table.tbl th.sorted .ar{opacity:1}
-table.tbl tbody tr:hover{background:var(--plane)}
+table.tbl th.sorted{color:var(--red-deep);border-bottom-color:var(--red)}
+table.tbl th.sorted .ar{opacity:1}
+table.tbl tbody tr{transition:background .1s}
+table.tbl tbody tr:hover{background:var(--red-wash)}
 table.tbl tfoot td{font-weight:800;color:var(--ink);border-top:2px solid var(--neutral);border-bottom:none}
 table.tbl .lo{color:var(--red-deep);font-weight:700}
 table.tbl .hi{color:var(--green-ink);font-weight:700}
@@ -167,10 +239,13 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
 .sw{width:.66rem;height:.66rem;border-radius:2px;display:inline-block;margin-right:.4rem;vertical-align:-1px}
 .s1{background:#8c0410}.s2{background:#c00512}.s3{background:#e94b45}.s4{background:#f6a09b}
 
-.note{background:var(--red-wash);border-left:3px solid var(--red);padding:.6rem .85rem;border-radius:0 8px 8px 0;
-  font-size:.8rem;color:var(--ink-2);line-height:1.5}
+.note{background:var(--red-wash);border:1px solid #f5c9c9;border-left:3px solid var(--red);
+  padding:.65rem .9rem;border-radius:0 10px 10px 0;font-size:.8rem;color:var(--ink-2);line-height:1.5}
 .note b{color:var(--ink)}
-.note.blue{background:var(--blue-wash);border-left-color:var(--blue)}
+.note.blue{background:var(--blue-wash);border-color:#cfe0f7;border-left-color:var(--blue)}
+.note .lbl{display:block;color:var(--red-deep);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:700;margin-bottom:.3rem}
+.note.blue .lbl{color:var(--blue-ink)}
 
 /* tooltip */
 #tip{position:fixed;z-index:99;pointer-events:none;background:#1a1a1a;color:#fff;border-radius:7px;
@@ -182,18 +257,24 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
 #tip .r{display:flex;justify-content:space-between;gap:.9rem;font-variant-numeric:tabular-nums;color:#e6e6e6}
 .hit{cursor:crosshair}
 
+@media (max-width:1420px){ .appbar .cover{display:none} }
 @media (max-width:1180px){
   .k6{grid-template-columns:repeat(3,1fr)} .k4{grid-template-columns:repeat(2,1fr)}
   .k21,.k12,.k3{grid-template-columns:1fr}
+  .appbar .title{display:none}
 }
 @media (max-width:900px){
   .app{grid-template-columns:1fr} .rail{position:static;height:auto;flex-direction:column}
-  nav{flex-direction:row;flex-wrap:wrap} nav button.on::before{display:none}
+  .rail .railtag{display:none}
+  nav{flex-direction:row;flex-wrap:wrap;padding:.5rem .7rem} nav button{width:auto}
+  nav button.on::before{display:none}
   .k6,.k4,.k2{grid-template-columns:repeat(2,1fr)} .rail .foot{display:none}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media print{
-  .rail,.filters,.csv{display:none}.app{grid-template-columns:1fr}
+  .rail,.filters,.csv,.appbar .act{display:none}.app{grid-template-columns:1fr}
+  .appbar{position:static}
+  .panel,.kpi{box-shadow:none}
   .page{display:block!important;break-before:page;padding:8mm}
   .panel{break-inside:avoid}
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
@@ -203,12 +284,19 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
 <body>
 <div id="tip" role="status" aria-live="off"></div>
 
+<header class="appbar">
+  <span class="wordmark">DERCO CHILE</span>
+  <span class="div"></span>
+  <span class="title"><b>Retail Sales Intelligence</b> · BI unit</span>
+  <span class="grow"></span>
+  <span class="cover" id="cover"></span>
+  <span class="pill-warn"><i></i> Money synthetic — relative signal</span>
+  <button class="act" id="printbtn" title="Print or save the current view as PDF">Print view</button>
+</header>
+
 <div class="app">
   <aside class="rail">
-    <div class="brand">
-      <div class="wordmark">DERCO CHILE</div>
-      <div class="sub">BI · Retail Sales</div>
-    </div>
+    <div class="railtag">Reports</div>
     <nav id="nav" aria-label="Dashboard pages">
       <button class="on" data-page="overview"><span class="ix">01</span>Overview</button>
       <button data-page="portfolio"><span class="ix">02</span>Brand portfolio</button>
@@ -217,7 +305,7 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
       <button data-page="risk"><span class="ix">05</span>Margin risk</button>
     </nav>
     <div class="foot">
-      Source <b>derco_sales_clean.parquet</b><br>
+      <div class="src"><i></i> <b>derco_sales_clean.parquet</b></div>
       <span id="railrows"></span> rows · <span id="railwin"></span><br>
       Built by <b>build_dashboard.py</b><br>
       UDD 2026 · BI Final Project
@@ -225,18 +313,13 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
   </aside>
 
   <main>
-    <header class="topbar">
-      <div class="row">
-        <div>
-          <div class="crumb" id="crumb">01 · Overview</div>
-          <h1 id="ptitle">Retail sales performance</h1>
-        </div>
-        <div class="meta">
-          <span class="badge"><span class="dot"></span> Money fields synthetic — relative signal</span><br>
-          <span id="cover"></span>
-        </div>
+    <div class="topbar">
+      <div>
+        <div class="crumb" id="crumb">01 · Overview</div>
+        <h1 id="ptitle">Retail sales performance</h1>
+        <div class="lede" id="plede"></div>
       </div>
-    </header>
+    </div>
 
     <div class="filters">
       <div class="fgroup">
@@ -255,13 +338,15 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
         <label>Brand origin</label>
         <div class="ctl" id="forigin"></div>
       </div>
-      <div class="fgroup" style="max-width:min(560px,42vw)">
+      <div class="fgroup" style="max-width:min(540px,40vw)">
         <label>Brand</label>
         <div class="ctl" id="fbrand"></div>
       </div>
       <div class="fspacer"></div>
-      <div class="fstat" id="fstat"></div>
-      <button class="freset" id="freset">Reset filters</button>
+      <div class="fright">
+        <div class="fstat" id="fstat"></div>
+        <button class="freset" id="freset">Reset filters</button>
+      </div>
     </div>
 
     <!-- ══════════ 01 · OVERVIEW ══════════ -->
@@ -269,6 +354,7 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
       <div class="grid k6" id="kpi-overview"></div>
       <div style="color:var(--muted);font-size:.76rem;margin-top:.5rem" id="kpitrend"></div>
 
+      <div class="sect"><span>Trend</span></div>
       <div class="grid k21 mt">
         <div class="panel">
           <header><h2>Volume and margin quality by year</h2><span class="hint">bars = units · line = margin %</span></header>
@@ -284,6 +370,7 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
           <header><h2>Chinese-brand share of volume</h2><span class="hint">% of transactions</span></header>
           <div class="desc">The structural shift behind the FY2026 recommendation.</div>
           <div class="chart" id="ch-origin"></div>
+          <div class="statrow" id="origin-stats"></div>
           <footer>Responds to the <b>period</b> and <b>channel</b> filters. The brand and origin filters are
             ignored here — filtering brands would redefine the denominator and make the share meaningless.</footer>
         </div>
@@ -303,6 +390,7 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
         </div>
       </div>
 
+      <div class="sect"><span>Detail · brand ledger</span></div>
       <div class="panel mt">
         <header><h2>Brand performance</h2>
           <button class="csv" data-csv="tbl-brands">Export CSV</button></header>
@@ -318,6 +406,7 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
     <section class="page" id="page-portfolio">
       <div class="grid k6" id="kpi-portfolio"></div>
 
+      <div class="sect"><span>Composition</span></div>
       <div class="grid k21 mt">
         <div class="panel">
           <header><h2>Volume share by brand</h2><span class="hint">% of filtered transactions</span></header>
@@ -335,6 +424,7 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
         </div>
       </div>
 
+      <div class="sect"><span>Quality of the mix</span></div>
       <div class="grid k2 mt">
         <div class="panel">
           <header><h2>Price bands</h2><span class="hint">bars = margin % · line = loss rate</span></header>
@@ -354,6 +444,7 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
         </div>
       </div>
 
+      <div class="sect"><span>Detail · nameplates</span></div>
       <div class="panel mt">
         <header><h2>Top nameplates</h2>
           <button class="csv" data-csv="tbl-models">Export CSV</button></header>
@@ -366,7 +457,8 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
 
     <!-- ══════════ 03 · CHANNEL & GEOGRAPHY ══════════ -->
     <section class="page" id="page-channel">
-      <div class="grid k2" id="kpi-channel"></div>
+      <div class="sect" style="margin-top:0"><span>Channel economics</span></div>
+      <div class="grid k2 mt" id="kpi-channel"></div>
 
       <div class="grid k2 mt">
         <div class="panel">
@@ -386,10 +478,12 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
         </div>
       </div>
 
+      <div class="sect"><span>Geography</span></div>
       <div class="grid k12 mt">
         <div class="panel">
           <header><h2>Concentration</h2><span class="hint">volume by comuna rank</span></header>
           <div class="chart" id="ch-geoconc"></div>
+          <div class="statrow" id="geo-stats"></div>
           <footer>Cumulative share against comuna rank. The steeper the curve, the more the business depends
             on a handful of markets.</footer>
         </div>
@@ -412,6 +506,7 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
 
       <div class="grid k6 mt" id="kpi-customers"></div>
 
+      <div class="sect"><span>Segmentation · Model A</span></div>
       <div class="grid k2 mt">
         <div class="panel">
           <header><h2>Segments — customers vs margin</h2><span class="hint">RFM · KMeans, k = 4</span></header>
@@ -431,6 +526,7 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
         </div>
       </div>
 
+      <div class="sect"><span>Repeat behaviour</span></div>
       <div class="grid k2 mt">
         <div class="panel">
           <header><h2>Purchases per customer</h2><span class="hint">14-year lifetime</span></header>
@@ -454,6 +550,7 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
     <section class="page" id="page-risk">
       <div class="grid k6" id="kpi-risk"></div>
 
+      <div class="sect"><span>Where the leak sits</span></div>
       <div class="grid k21 mt">
         <div class="panel">
           <header><h2>Where the margin lands</h2><span class="hint">deals by margin % band · full history</span></header>
@@ -487,6 +584,7 @@ table.tbl .hi{color:var(--green-ink);font-weight:700}
         </div>
       </div>
 
+      <div class="sect"><span>Prediction · Model B</span></div>
       <div class="panel mt">
         <header><h2>Model B — loss-deal classifier</h2><span class="hint">HistGradientBoosting · pre-sale features only</span></header>
         <div class="desc">Trained on brand, channel, comuna, list price and timing. <b>Margin is excluded</b> —
@@ -831,11 +929,34 @@ document.querySelectorAll('.csv').forEach(b=>b.addEventListener('click',()=>{
   a.click(); URL.revokeObjectURL(a.href);
 }));
 
-/* KPI tiles */
+/* KPI tiles.  A tile may carry a sparkline: the same measure over the years in
+   scope, so the headline figure arrives with its own history attached. */
+function sparkline(values, color){
+  const vs = values.filter(v=>v!=null && isFinite(v));
+  if(vs.length<2) return '';
+  const lo=Math.min(...vs), hi=Math.max(...vs), span=(hi-lo)||1;
+  const X = i => i/(values.length-1)*100;
+  const Y = v => 22-((v-lo)/span)*20;
+  const pts = values.map((v,i)=> v==null?null:[X(i),Y(v)]).filter(Boolean);
+  const d = pts.map(p=>p[0].toFixed(2)+','+p[1].toFixed(2)).join(' ');
+  const last = pts[pts.length-1];
+  return `<svg viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true">`+
+    `<polygon points="${pts[0][0]},24 ${d} ${last[0]},24" fill="${color}" fill-opacity=".10"/>`+
+    `<polyline points="${d}" fill="none" stroke="${color}" stroke-width="1.5"`+
+    ` vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`+
+    `<circle cx="${last[0]}" cy="${last[1]}" r="2" fill="${color}"`+
+    ` vector-effect="non-scaling-stroke"/></svg>`;
+}
+function stats(hostId, items){
+  const host=document.getElementById(hostId);
+  if(host) host.innerHTML = items.map(s=>
+    `<div><div class="sv ${s.tone||''}">${s.v}</div><div class="sk">${esc(s.k)}</div></div>`).join('');
+}
 function kpis(hostId, items){
   document.getElementById(hostId).innerHTML = items.map(k=>
     `<div class="kpi ${k.tone||''}"><div class="k">${esc(k.k)}</div>`+
     `<div class="v ${k.vtone||''}">${k.v}${k.unit?`<small>${esc(k.unit)}</small>`:''}</div>`+
+    (k.spark? `<div class="spark">${sparkline(k.spark, k.sparkColor||C.red)}</div>`:'')+
     `<div class="d">${k.d||''}</div></div>`).join('');
 }
 function delta(cur, prev, opts={}){
@@ -875,18 +996,22 @@ function renderOverview(rs){
   const ys = yearsInRange();
   const cmp = compare(rs, ys), a = cmp.a, b = cmp.b, lab = cmp.label;
 
+  /* one sparkline per tile: the same measure, year by year, over the years in scope */
+  const sp = fn => ys.map(y=>{ const d=yr.get(y); return d?fn(d):null; });
   kpis('kpi-overview', [
-    {k:'Transactions', v:int(t.units), tone:'', vtone:'red',
+    {k:'Transactions', v:int(t.units), vtone:'red', spark:sp(d=>d.units), sparkColor:C.red,
      d: delta(a.units, b?b.units:null, {label:lab})},
-    {k:'Revenue (list)', v:clp(t.revenue), unit:'CLP', tone:'grey',
-     d: delta(a.revenue, b?b.revenue:null, {label:lab})},
+    {k:'Revenue (list)', v:clp(t.revenue), unit:'CLP', tone:'grey', spark:sp(d=>d.revenue),
+     sparkColor:C.ink2, d: delta(a.revenue, b?b.revenue:null, {label:lab})},
     {k:'Retail margin', v:clp(t.margin), unit:'CLP', tone:'green', vtone:'green',
+     spark:sp(d=>d.margin), sparkColor:C.green,
      d: delta(a.margin, b?b.margin:null, {label:lab})},
-    {k:'Margin %', v:pct(mpct(t),2), tone:'green', vtone:'green',
+    {k:'Margin %', v:pct(mpct(t),2), tone:'green', vtone:'green', spark:sp(mpct), sparkColor:C.green,
      d: delta(mpct(a), b?mpct(b):null, {label:lab, pp:true})},
     {k:'Avg ticket', v:clp(t.units?t.revenue/t.units:0), unit:'CLP', tone:'blue', vtone:'blue',
+     spark:sp(d=>d.units?d.revenue/d.units:null), sparkColor:C.blue,
      d: delta(a.units?a.revenue/a.units:null, b&&b.units?b.revenue/b.units:null, {label:lab})},
-    {k:'Loss-making deals', v:pct(lpct(t),2), vtone:'red',
+    {k:'Loss-making deals', v:pct(lpct(t),2), vtone:'red', spark:sp(lpct), sparkColor:C.red,
      d: `${int(t.losses)} deals · ${clp(Math.abs(t.loss_margin))} CLP leaked`}
   ]);
   document.getElementById('kpitrend').innerHTML = cmp.b
@@ -919,6 +1044,17 @@ function renderOverview(rs){
       return [['Chinese-brand share', pct(share[i],1)],['Chinese units',int(cn)],
               ['All units',int(tot)]]; }
   });
+  const valid = share.map((v,i)=>[v,ys[i]]).filter(p=>p[0]!=null);
+  const first = valid[0], lastS = valid[valid.length-1];
+  const crossed = valid.find(p=>p[0]>=50);
+  const peak = valid.reduce((m,p)=>p[0]>m[0]?p:m, valid[0]);
+  stats('origin-stats', [
+    {v:pct(first[0],1), k:first[1]+' share'},
+    {v:pct(lastS[0],1), k:lastS[1]+' share', tone:'red'},
+    {v:(lastS[0]-first[0]>=0?'+':'')+(lastS[0]-first[0]).toFixed(1), k:'pp change', tone:'red'},
+    {v:crossed?String(crossed[1]):'never', k:'crossed 50%', tone:'blue'},
+    {v:pct(peak[0],1), k:'peak · '+peak[1]}
+  ]);
 
   const mk = by(rs, r=>r.year*100+r.month);
   const keysM = [...mk.keys()].sort((x,y)=>x-y);
@@ -1071,7 +1207,7 @@ function renderChannel(rs){
                 propio:{name:'propio — DERCO-owned stores', color:C.red, tone:''}};
   document.getElementById('kpi-channel').innerHTML = order.map(c=>{
     const v=ch.get(c), m=meta[c]||{name:c,color:C.ink,tone:'grey'};
-    return `<div class="panel" style="border-top:3px solid ${m.color}">
+    return `<div class="panel ${c==='ces'?'acc-blue':''}" style="border-top:3px solid ${m.color}">
       <header><h2>${esc(m.name)}</h2><span class="hint">${pct(t.units?v.units/t.units*100:0)} of volume</span></header>
       <div class="grid k4 mt">
         <div><div class="k" style="color:var(--muted);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700">Transactions</div>
@@ -1109,6 +1245,13 @@ function renderChannel(rs){
     tipTitle:i=>'#'+(i+1)+' · '+ranked[i].comuna,
     tip:i=>[['Cumulative share', pct(cum[i],1)],['This comuna', pct(ranked[i].share,2)],
             ['Transactions', int(ranked[i].units)]]});
+  const at = n => cum[n-1]!=null ? pct(cum[n-1],1) : '—';
+  const half = cum.findIndex(v=>v>=50);
+  stats('geo-stats', [
+    {v:at(5), k:'top 5'}, {v:at(10), k:'top 10', tone:'red'},
+    {v:at(20), k:'top 20'}, {v:at(50), k:'top 50'},
+    {v: half>=0 ? String(half+1) : '50+', k:'comunas = half the volume', tone:'blue'}
+  ]);
 
   const maxU = Math.max(...geoRows.map(r=>r.units),1);
   table('tbl-geo', [
@@ -1288,6 +1431,22 @@ function renderRisk(rs){
 /* ===========================================================================
    Filters, routing, boot
    =========================================================================== */
+/* Segmented control for the cuts that are mutually exclusive in practice (channel,
+   origin): one of them, or all of them. Multi-select chips would offer combinations
+   that are just "All" spelled the long way. */
+function seg(hostId, values, set, cls){
+  const host=document.getElementById(hostId);
+  host.innerHTML = `<div class="seg">`+
+    `<button class="${set.size===0?'on '+(cls||''):''}" data-v="">All</button>`+
+    values.map(v=>`<button class="${set.has(v)?'on '+(cls||''):''}" data-v="${esc(v)}">${esc(v)}</button>`).join('')+
+    `</div>`;
+  host.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{
+    const v=b.dataset.v;
+    set.clear();
+    if(v && !b.classList.contains('on')) set.add(v);
+    seg(hostId, values, set, cls); render();
+  }));
+}
 function chips(hostId, values, set, cls){
   const host=document.getElementById(hostId);
   host.innerHTML = `<button class="chip ghost ${set.size===0?'on '+(cls||''):''}" data-v="">All</button>` +
@@ -1306,24 +1465,29 @@ function buildFilters(){
   yf.value=F.y0; yt.value=F.y1;
   yf.addEventListener('change',()=>{ F.y0=+yf.value; if(F.y1<F.y0){F.y1=F.y0; yt.value=F.y1;} render(); });
   yt.addEventListener('change',()=>{ F.y1=+yt.value; if(F.y0>F.y1){F.y0=F.y1; yf.value=F.y0;} render(); });
-  chips('fchannel', CHANNELS, F.channels, 'blue');
-  chips('forigin', ORIGINS, F.origins);
+  seg('fchannel', CHANNELS, F.channels, 'blue');
+  seg('forigin', ORIGINS, F.origins);
   chips('fbrand', BRANDS, F.brands);
   document.getElementById('freset').addEventListener('click',()=>{
     F.y0=YEARS[0]; F.y1=YEARS[YEARS.length-1];
     F.brands.clear(); F.channels.clear(); F.origins.clear();
     yf.value=F.y0; yt.value=F.y1;
-    chips('fchannel',CHANNELS,F.channels,'blue'); chips('forigin',ORIGINS,F.origins);
+    seg('fchannel',CHANNELS,F.channels,'blue'); seg('forigin',ORIGINS,F.origins);
     chips('fbrand',BRANDS,F.brands); render();
   });
 }
 
 const PAGES = {
-  overview:{title:'Retail sales performance', crumb:'01 · Overview'},
-  portfolio:{title:'Brand portfolio & mix', crumb:'02 · Brand portfolio'},
-  channel:{title:'Channel economics & geography', crumb:'03 · Channel & geography'},
-  customers:{title:'Customer base & segmentation', crumb:'04 · Customers'},
-  risk:{title:'Margin risk & loss prevention', crumb:'05 · Margin risk'}
+  overview:{title:'Retail sales performance', crumb:'01 · Overview',
+    lede:'How much DERCO sold, at what margin quality, and how both moved across fourteen years.'},
+  portfolio:{title:'Brand portfolio & mix', crumb:'02 · Brand portfolio',
+    lede:'Where the volume sits, how concentrated it is, and how the Chinese-brand share rewrote the shelf.'},
+  channel:{title:'Channel economics & geography', crumb:'03 · Channel & geography',
+    lede:'Dealer network against owned stores, and how far the business depends on a handful of comunas.'},
+  customers:{title:'Customer base & segmentation', crumb:'04 · Customers',
+    lede:'Who comes back, who never does, and which segment carries the margin. Full history, unfiltered.'},
+  risk:{title:'Margin risk & loss prevention', crumb:'05 · Margin risk',
+    lede:'The deals that close below cost, where they concentrate, and the classifier that flags them early.'}
 };
 let page='overview';
 /* the page lives in the hash, so a view can be linked to or refreshed into */
@@ -1333,6 +1497,7 @@ function goto(next, push=true){
   document.querySelectorAll('.page').forEach(p=>p.classList.toggle('on', p.id==='page-'+page));
   document.getElementById('ptitle').textContent=PAGES[page].title;
   document.getElementById('crumb').textContent=PAGES[page].crumb;
+  document.getElementById('plede').textContent=PAGES[page].lede;
   if(push && location.hash.slice(1)!==page) location.hash=page;
   scrollTo({top:0}); render();
 }
@@ -1344,8 +1509,9 @@ function render(){
   const rs=currentRows(), t=total(rs);
   const share = DATA.rows ? t.units/DATA.rows*100 : 0;
   document.getElementById('fstat').innerHTML =
-    `<b>${int(t.units)}</b> transactions in scope · ${pct(share,1)} of the dataset<br>`+
+    `<span class="scope"><i></i><b>${int(t.units)}</b> in scope · ${pct(share,1)} of the dataset</span><br>`+
     `${F.y0}–${F.y1} · ${F.channels.size?[...F.channels].join(', '):'all channels'} · `+
+    `${F.origins.size?[...F.origins].join(', '):'all origins'} · `+
     `${F.brands.size?F.brands.size+' brand'+(F.brands.size>1?'s':''):'all brands'}`;
   if(page==='overview') renderOverview(rs);
   if(page==='portfolio') renderPortfolio(rs);
@@ -1359,9 +1525,15 @@ document.getElementById('railrows').textContent = int(DATA.rows);
 document.getElementById('railwin').textContent = DATA.date_min+' → '+DATA.date_max;
 document.getElementById('cover').innerHTML =
   `<b>${int(DATA.rows)}</b> transactions · <b>${int(DATA.customers)}</b> customers · `+
-  `<b>${DATA.brands.length}</b> brands · <b>${int(DATA.comunas_total)}</b> comunas `+
-  `(+ ${pct(DATA.unknown_comuna_pct,2)} UNKNOWN, kept not dropped)<br>`+
-  `Coverage <b>${DATA.date_min}</b> → <b>${DATA.date_max}</b> (2009 from May, 2022 to March)`;
+  `<b>${DATA.brands.length}</b> brands · <b>${int(DATA.comunas_total)}</b> comunas<br>`+
+  `<b>${DATA.date_min}</b> → <b>${DATA.date_max}</b> · 2009 from May, 2022 to March`;
+document.getElementById('printbtn').addEventListener('click', ()=>{
+  /* print lays every page out at once, so each one has to have been rendered first */
+  const back=page;
+  Object.keys(PAGES).forEach(p=>goto(p,false));
+  goto(back,false);
+  setTimeout(()=>window.print(), 150);
+});
 document.getElementById('comunatot').textContent = int(DATA.comunas_total);
 document.getElementById('modeltot').textContent = int(DATA.models_total);
 document.getElementById('lossbn').textContent = clp(Math.abs(M.loss_bn*1e9))+' CLP';
