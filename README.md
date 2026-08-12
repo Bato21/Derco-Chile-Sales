@@ -198,6 +198,47 @@ Permutation importance (drop in ROC-AUC when a feature is shuffled) puts brand, 
 consistent with the exploratory findings. Precision of 11% is good for triage and unacceptable for automatic
 rejection, so the output is a review queue and a human decides every flag.
 
+## Stage 4 — the dashboard
+
+`presentation/dashboard.html` is the operational read of the same analysis: five pages — overview, brand
+portfolio, channel and geography, customers, margin risk — with period, channel, origin and brand filters that
+recompute every KPI, chart and table in the page.
+
+It is one self-contained file of about 370 KB. Opening it needs a browser and nothing else: no server, no network,
+no build step at view time. That is deliberate — a `file://` page cannot fetch a sibling JSON, and a dashboard that
+only works on the machine that built it is not a deliverable.
+
+Nothing in it is typed by hand. `build_dashboard_data.py` aggregates the clean parquet into five cubes, and
+`build_dashboard.py` inlines them into the template:
+
+```bash
+python presentation/build_dashboard_data.py     # parquet -> presentation/dashboard_data.json
+python presentation/build_dashboard.py          # + dashboard_template.html -> dashboard.html
+```
+
+The cubes are aggregates, not extracts: the customer hash never leaves the notebook, and no row-level record is
+present in the published file. That also bounds what the filters can honestly do, and each panel says which
+filters reach it:
+
+| Cube | Dimensions | Filters that apply |
+|---|---|---|
+| main | year, month, brand, origin, channel | all four |
+| geography | comuna (top 60 + `OTRAS COMUNAS`), year, channel | period, channel |
+| models | model, brand, year, channel | period, channel, brand |
+| price bands | band, year, channel | period, channel |
+| customers | segments, repeat distribution, buyers per year | none — see below |
+
+Three panels deliberately ignore the filters, and say so on screen. Chinese-brand share is computed against the
+unfiltered brand denominator, because filtering brands would redefine the denominator and make a share meaningless.
+The customer page is computed over the full history, because recency, frequency and lifetime value only mean
+something against a customer's whole record. The margin histogram is the global distribution.
+
+Year-on-year tiles compare like with like: 2022 holds three months, so the trend row compares January–March 2022
+against January–March 2021 rather than reporting a 76% collapse that never happened.
+
+`presentation/dashboard.png`, written by the notebook, remains the static six-number twin used in the slides. Both
+read the same underlying analysis.
+
 ## Stage 5 — limits
 
 Stated here, not only in the notebook, because a reader who stops at the README should still see them.
@@ -251,7 +292,7 @@ from Colab once the workbook is uploaded. It prints the folders it resolved in t
 ├── BI_FinalProject_Team1/    the four submitted files
 ├── data/                     source workbook, clean Parquet, CSV sample, DATA_SOURCE.md
 ├── notebooks/                BI2026_FinalProject.ipynb (deliverable) + early scoping notebook
-├── presentation/             deck sources and builds, dashboard.png, metrics.json, Q&A defence pack
+├── presentation/             deck sources and builds, dashboard.html + its build scripts, metrics.json, Q&A pack
 ├── documents/                course brief and reference material
 ├── requirements.txt
 └── README.md
